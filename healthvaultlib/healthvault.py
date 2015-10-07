@@ -33,6 +33,8 @@ from django.http import HttpResponse
 import httplib
 from healthvaultlib.hvcrypto import HVCrypto
 from settings import *
+import pytz
+import datetime
 
 class HealthVaultConn(object):
     wctoken     = None
@@ -41,14 +43,16 @@ class HealthVaultConn(object):
     signature     = None
     crypto        = None
     record_id    = None
+    signing_time = None
 
     def __init__(self, wctoken):
         self.wctoken = wctoken
+        self.signing_time = datetime.datetime.now(pytz.utc).isoformat()
         crypto     = HVCrypto()
             #2. create content with shared sec
-        content    = '<content><app-id>'+HV_APPID+'</app-id><hmac>HMACSHA256</hmac><signing-time>2015-05-24T18:00:28.9444371Z</signing-time></content>'
+        content    = '<content><app-id>'+HV_APPID+'</app-id><hmac>HMACSHA256</hmac><signing-time>'+ self.signing_time +'</signing-time></content>'
           #3. create header 
-        header     = "<header><method>CreateAuthenticatedSessionToken</method><method-version>2</method-version><app-id>"+HV_APPID+"</app-id><language>en</language><country>US</country><msg-time>2015-09-24T18:13:50.750-04:00</msg-time><msg-ttl>36000</msg-ttl><version>0.0.0.1</version></header>"
+        header     = "<header><method>CreateAuthenticatedSessionToken</method><method-version>2</method-version><app-id>"+HV_APPID+"</app-id><language>en</language><country>US</country><msg-time>"+ self.signing_time  +"</msg-time><msg-ttl>36000</msg-ttl><version>0.0.0.1</version></header>"
         self.signature = crypto.sign(content)
         #4. create info with signed content 
         info    = '<info><auth-info><app-id>'+HV_APPID+'</app-id><credential><appserver2><sig digestMethod="SHA1" sigMethod="RSA-SHA1" thumbprint="'+APP_THUMBPRINT+'">'+self.signature+'</sig>'+content+'</appserver2></credential></auth-info></info>'
@@ -67,7 +71,7 @@ class HealthVaultConn(object):
         else:
             return "error occured at get auth token"
         #5 After you get the auth_token.. get the record id
-        header     = '<header><method>GetPersonInfo</method><method-version>1</method-version><auth-session><auth-token>'+self.auth_token+'</auth-token><user-auth-token>'+self.wctoken+'</user-auth-token></auth-session><language>en</language><country>US</country><msg-time>2015-09-24T18:00:50.750-04:00</msg-time><msg-ttl>36000</msg-ttl><version>0.0.0.1</version>'
+        header     = '<header><method>GetPersonInfo</method><method-version>1</method-version><auth-session><auth-token>%s</auth-token><user-auth-token>%s</user-auth-token></auth-session><language>en</language><country>US</country><msg-time>%s</msg-time><msg-ttl>36000</msg-ttl><version>0.0.0.1</version>' % (self.auth_token, self.wctoken, self.signing_time)
         info        = '<info/>'
         infodigest     = base64.encodestring(hashlib.sha1(info).digest()) 
         headerinfo = '<info-hash><hash-data algName="SHA1">'+infodigest.strip()+'</hash-data></info-hash>'
@@ -111,7 +115,7 @@ class HealthVaultConn(object):
  
     def getThings(self, hv_datatype):
       #set record-id in the hearder
-      header     = '<header><method>GetThings</method><method-version>3</method-version><record-id>'+self.record_id+'</record-id><auth-session><auth-token>'+self.auth_token+'</auth-token><user-auth-token>'+self.wctoken+'</user-auth-token></auth-session><language>en</language><country>US</country><msg-time>2015-09-24T18:13:50.750-04:00</msg-time><msg-ttl>36000</msg-ttl><version>0.0.0.1</version>'
+      header     = '<header><method>GetThings</method><method-version>3</method-version><record-id>'+self.record_id+'</record-id><auth-session><auth-token>'+self.auth_token+'</auth-token><user-auth-token>'+self.wctoken+'</user-auth-token></auth-session><language>en</language><country>US</country><msg-time>'+ self.signing_time +'</msg-time><msg-ttl>36000</msg-ttl><version>0.0.0.1</version>'
      
       #QUERY INFO 
       info        = '<info><group><filter><type-id>'+hv_datatype+'</type-id></filter><format><section>core</section><xml/></format></group></info>'
