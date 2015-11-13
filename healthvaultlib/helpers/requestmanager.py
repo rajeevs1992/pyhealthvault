@@ -10,7 +10,7 @@ from lxml import etree
 class RequestManager():
     
     connection = None
-    
+
     method = None
     info = None
     header = None
@@ -21,13 +21,12 @@ class RequestManager():
         self.connection = connection
 
     def construct_request(self):
-        self.info = self.method.get_info()
+        self.info = self.method.request.get_info()
         infohash = base64.encodestring(hashlib.sha1(etree.tostring(info)).digest())
         self.header = self.construct_header(infohash)
         hashedheader = hmac.new(base64.b64decode(self.connection.sharedsec),
                                 etree.tostring(self.header), hashlib.sha1)
         self.auth = self.construct_auth(hashedheader)
-        self.makerequest()
 
     def construct_auth(hashedheader):
         auth = etree.Element('auth')
@@ -39,6 +38,7 @@ class RequestManager():
         return auth
 
     def makerequest(self):
+        self.construct_request()
         NSMAP = {'wc-request' : 'urn:com.microsoft.wc.request'}
         request_wrapper = etree.Element('wc-request:request', nsmap=NSMAP)
         request_wrapper.append(self.auth)
@@ -46,6 +46,7 @@ class RequestManager():
         request_wrapper.append(self.info)
 
         response = self.sendrequest(etree.tostring(request_wrapper))
+        self.method.response.parse_response(response)
 
     def sendrequest(request):
         '''
@@ -70,28 +71,39 @@ class RequestManager():
         header = etree.Element('header')
         
         method = etree.Element('method')
-        method.text = self.method.name
+        method.text = self.method.request.name
         header.append(method)
 
         method_version = etree.Element('method-version')
-        method_version.text = self.method.version
+        method_version.text = self.method.request.version
         header.append(method_version)
 
-        record_id = etree.Element('record-id')
-        record_id.text = self.connection.recordid
-        header.append(record_id)
+        if self.connection.recordid is not None:
+            record_id = etree.Element('record-id')
+            record_id.text = self.connection.recordid
+            header.append(record_id)
 
-        auth_session = etree.Element('auth-session')
+        if self.connection.personid is not None:
+            person_id = etree.Element('person-id')
+            person_id.text = self.connection.personid
+            header.append(person_id)
 
-        auth_token = etree.Element('auth-token')
-        auth_token.text = self.connection.auth_token
-        auth_session.append(auth_token)
+        if self.connection.auth_token is not None and self.connection.wctoken is not None:
+            auth_session = etree.Element('auth-session')
 
-        user_auth_token = etree.Element('user-auth-token')
-        user_auth_token.text = self.connection.wctoken
-        auth_session.append(user_auth_token)
+            auth_token = etree.Element('auth-token')
+            auth_token.text = self.connection.auth_token
+            auth_session.append(auth_token)
 
-        header.append(auth_session)
+            user_auth_token = etree.Element('user-auth-token')
+            user_auth_token.text = self.connection.wctoken
+            auth_session.append(user_auth_token)
+
+            header.append(auth_session)
+        else:
+            appid = etree.Element('app-id')
+            appid.text = self.connection.applicationid
+            header.append(appid)
 
         language = etree.Element('language')
         language.text = 'en'
