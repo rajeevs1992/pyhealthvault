@@ -22,12 +22,12 @@ class RequestManager():
 
     def construct_request(self):
         self.info = self.method.request.get_info()
-        infohash = base64.encodestring(hashlib.sha1(etree.tostring(self.info)).digest())
+        infohash = base64.encodestring(hashlib.sha1(etree.tostring(self.info)).digest()).strip()
         self.header = self.construct_header(infohash)
         if self.connection.shared_secret is not None:
             hashedheader = hmac.new(base64.b64decode(self.connection.shared_secret),
                                     etree.tostring(self.header), hashlib.sha1)
-            hashedheader64 = base64.encodestring(hashedheader.digest())
+            hashedheader64 = base64.encodestring(hashedheader.digest()).strip()
             self.auth = self.construct_auth(hashedheader64)
 
     def construct_auth(self, hashedheader):

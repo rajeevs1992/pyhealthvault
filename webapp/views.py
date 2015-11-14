@@ -62,6 +62,7 @@ def mvaultentry(request):
     conn.thumbprint = APP_THUMBPRINT
     conn.user_auth_token = wctoken
     conn.connect()
+    conn.set_person_and_record_from_personinfo()
     hvconn = HealthVaultConn(wctoken)
     demo = hvconn.getBasicDemographicInfo()
     template_values = {'basicdemographic' : demo}

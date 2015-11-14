@@ -8,7 +8,7 @@ class XmlUtils:
     def get_string_by_xpath(self, xpath):
         if self.element is None:
             return None
-        return self.element.xpath(xpath)[0]
+        return (self.element.xpath(xpath)[0]).strip()
 
     def get_int_by_xpath(self, xpath):
         value = self.get_single_value_by_xpath(xpath)
