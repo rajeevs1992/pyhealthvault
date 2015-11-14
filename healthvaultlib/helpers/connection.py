@@ -30,7 +30,8 @@ class Connection:
         requestmgr.makerequest()
 
         self.shared_secret = requestmgr.method.response.shared_secret
-        self.user_auth_token = requestmgr.method.response.user_auth_token
+        self.auth_token = requestmgr.method.response.auth_token
+
         self.isauthenticated = True
 
     def set_person_and_record(self, personid, recordid):

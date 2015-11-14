@@ -1,3 +1,4 @@
+from lxml import etree
 from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
 from healthvaultlib.objects.personinfo import PersonInfo
 
@@ -5,7 +6,7 @@ class GetPersonInfoRequest(RequestBase):
     
     def __init__(self):
         self.name = 'GetPersonInfo'
-        self.version = '1'
+        self.version = 1
 
     def get_info(self):
         info = etree.Element('info')
@@ -16,7 +17,7 @@ class GetPersonInfoResponse(ResponseBase):
 
     def __init__(self):
         self.name = 'GetPersonInfo'
-        self.version = '1'
+        self.version = 1
 
     def parse_response(self, response):
         self.parse_info(response)

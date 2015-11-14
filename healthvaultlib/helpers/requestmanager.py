@@ -27,9 +27,10 @@ class RequestManager():
         if self.connection.shared_secret is not None:
             hashedheader = hmac.new(base64.b64decode(self.connection.shared_secret),
                                     etree.tostring(self.header), hashlib.sha1)
-            self.auth = self.construct_auth(hashedheader)
+            hashedheader64 = base64.encodestring(hashedheader.digest())
+            self.auth = self.construct_auth(hashedheader64)
 
-    def construct_auth(hashedheader):
+    def construct_auth(self, hashedheader):
         auth = etree.Element('auth')
 
         hmac_data = etree.Element('hmac-data', algName='HMACSHA1')
@@ -55,7 +56,17 @@ class RequestManager():
 
         print '[RESPONSE]'
         print etree.tostring(response, pretty_print=True)
+        
+        self.throw_if_error(response)
+
         self.method.response.parse_response(response)
+
+    def throw_if_error(self, response):
+        status_code = int(response.xpath('/response/status/code/text()')[0])
+        if status_code != 0:
+            error_description = response.xpath('/response/status/error/message/text()')[0]
+            raise Exception(error_description)
+       
 
     def sendrequest(self, request):
         '''

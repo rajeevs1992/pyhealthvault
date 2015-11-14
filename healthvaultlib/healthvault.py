@@ -83,9 +83,12 @@ class HealthVaultConn(object):
         hauthxml = '<auth><hmac-data algName="HMACSHA1">'+hashedheader64.strip()+'</hmac-data></auth>'
         payload = '<wc-request:request xmlns:wc-request="urn:com.microsoft.wc.request">'+hauthxml+header+info+'</wc-request:request>'
 
+        from lxml import etree
+        print etree.tostring(etree.fromstring(payload), pretty_print=True)
         response = self.sendRequest(payload) 
         if response.status == 200:
             response_data = response.read()
+            print etree.tostring(etree.fromstring(response_data), pretty_print=True)
             dom     = minidom.parseString(response_data)
             for node in dom.getElementsByTagName("selected-record-id"):
                 self.record_id = node.firstChild.nodeValue
@@ -93,7 +96,7 @@ class HealthVaultConn(object):
             return "error occured at select record id"
 
     def sendRequest(self, payload):
-          conn         = httplib.HTTPConnection(HV_SERVICE_SERVER)
+          conn         = httplib.HTTPSConnection(HV_SERVICE_SERVER, 443)
           conn.putrequest('POST','/platform/wildcat.ashx')
           conn.putheader('Content-Type','text/xml')
           conn.putheader('Content-Length','%d' % len(payload))

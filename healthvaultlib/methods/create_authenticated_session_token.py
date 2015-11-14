@@ -62,7 +62,7 @@ class CreateAuthenticatedSessionTokenRequest(RequestBase):
 
 class CreateAuthenticatedSessionTokenResponse(ResponseBase):
     shared_secret = None
-    user_auth_token = None
+    auth_token = None
     
     def __init__(self):
         self.name = 'CreateAuthenticatedSessionToken'
@@ -72,4 +72,4 @@ class CreateAuthenticatedSessionTokenResponse(ResponseBase):
         self.parse_info(response)
         xmlutils = XmlUtils(self.info)
         self.shared_secret = xmlutils.get_string_by_xpath('shared-secret/text()')
-        self.user_auth_token = xmlutils.get_string_by_xpath('token/text()')
+        self.auth_token = xmlutils.get_string_by_xpath('token/text()')
