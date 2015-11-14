@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from settings import *
 
-from healthvaultlib.healthvault import HealthVaultConn
+from healthvaultlib.helpers.connection import Connection
+from healthvaultlib.helpers.requestmanager import RequestManager
 
 def index(request):
   loginurl     = HV_SHELL_URL+"/redirect.aspx?target=AUTH&targetqs=?appid="+HV_APPID+"%26redirect="+APP_ACTION_URL
@@ -28,7 +29,7 @@ def mvaultaction(request):
      if target == "home":
         return HttpResponseRedirect('/')
      if target == "appauthsuccess":
-        wctoken = request.POST['wctoken']
+        wctoken = request.GET['wctoken']
         return HttpResponseRedirect('/mvaultentry?target=appauthsuccess&wctoken=' + wctoken)
      if target == "serviceagreement":
         return HttpResponseRedirect('/YouAPPTermsOfService.html')
@@ -49,14 +50,15 @@ def mvaultaction(request):
      return HttpResponse('')
 
 def mvaultentry(request):
-    target  = request.GET['target']
+    target  = request.GET['target'].lower()
     wctoken = ""
     if target == "appauthsuccess":
         wctoken = request.GET['wctoken']
     else:
         return HttpResponse("cannot get wctoken")
-    hvconn    = HealthVaultConn(wctoken)
-    demo    = hvconn.getBasicDemographicInfo()    
+    conn = Connection(HV_APPID, HV_SERVICE_SERVER)
+    conn.thumbprint = APP_THUMBPRINT
+    conn.connect()
+    demo = hvconn.getBasicDemographicInfo()
     template_values = {'basicdemographic':demo}
     return render_to_response('hvdata.html',template_values)
-

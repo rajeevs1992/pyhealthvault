@@ -22,11 +22,12 @@ class RequestManager():
 
     def construct_request(self):
         self.info = self.method.request.get_info()
-        infohash = base64.encodestring(hashlib.sha1(etree.tostring(info)).digest())
+        infohash = base64.encodestring(hashlib.sha1(etree.tostring(self.info)).digest())
         self.header = self.construct_header(infohash)
-        hashedheader = hmac.new(base64.b64decode(self.connection.sharedsec),
-                                etree.tostring(self.header), hashlib.sha1)
-        self.auth = self.construct_auth(hashedheader)
+        if self.connection.shared_secret is not None:
+            hashedheader = hmac.new(base64.b64decode(self.connection.shared_secret),
+                                    etree.tostring(self.header), hashlib.sha1)
+            self.auth = self.construct_auth(hashedheader)
 
     def construct_auth(hashedheader):
         auth = etree.Element('auth')
@@ -40,21 +41,29 @@ class RequestManager():
     def makerequest(self):
         self.construct_request()
         NSMAP = {'wc-request' : 'urn:com.microsoft.wc.request'}
-        request_wrapper = etree.Element('wc-request:request', nsmap=NSMAP)
-        request_wrapper.append(self.auth)
+        root_name = etree.QName('urn:com.microsoft.wc.request', 'request')
+        request_wrapper = etree.Element(root_name, nsmap=NSMAP)
+        if self.auth is not None:
+            request_wrapper.append(self.auth)
         request_wrapper.append(self.header)
         request_wrapper.append(self.info)
 
+        print '[REQUEST]'
+        print etree.tostring(request_wrapper, pretty_print=True)
+
         response = self.sendrequest(etree.tostring(request_wrapper))
+
+        print '[RESPONSE]'
+        print etree.tostring(response, pretty_print=True)
         self.method.response.parse_response(response)
 
-    def sendrequest(request):
+    def sendrequest(self, request):
         '''
             Recieves a request xml as a string and posts it 
             to the health service url specified in the
             settings.py
         '''
-        conn = httplib.HTTPConnection(HV_SERVICE_SERVER)
+        conn = httplib.HTTPSConnection(self.connection.healthserviceurl, 443)
         conn.putrequest('POST','/platform/wildcat.ashx')
         conn.putheader('Content-Type','text/xml')
         conn.putheader('Content-Length','%d' % len(request))
@@ -65,7 +74,8 @@ class RequestManager():
             if v[0] == 32:      # Broken pipe
                 conn.close()
             raise
-        return conn.getresponse()
+        response = conn.getresponse().read()
+        return etree.fromstring(response)
 
     def construct_header(self, infohash):
         header = etree.Element('header')
@@ -75,7 +85,7 @@ class RequestManager():
         header.append(method)
 
         method_version = etree.Element('method-version')
-        method_version.text = self.method.request.version
+        method_version.text = str(self.method.request.version)
         header.append(method_version)
 
         if self.connection.recordid is not None:
@@ -88,7 +98,7 @@ class RequestManager():
             person_id.text = self.connection.personid
             header.append(person_id)
 
-        if self.connection.auth_token is not None and self.connection.wctoken is not None:
+        if self.connection.auth_token is not None and self.connection.user_auth_token is not None:
             auth_session = etree.Element('auth-session')
 
             auth_token = etree.Element('auth-token')
@@ -96,7 +106,7 @@ class RequestManager():
             auth_session.append(auth_token)
 
             user_auth_token = etree.Element('user-auth-token')
-            user_auth_token.text = self.connection.wctoken
+            user_auth_token.text = self.connection.user_auth_token
             auth_session.append(user_auth_token)
 
             header.append(auth_session)

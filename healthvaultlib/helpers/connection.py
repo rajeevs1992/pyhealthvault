@@ -1,32 +1,36 @@
-from methods.create_authenticated_session_token import CreateAuthenticatedSessionTokenRequest
-from methods.create_authenticated_session_token import CreateAuthenticatedSessionTokenResponse
-from methods.getpersoninfo import GetPersonInfoRequest, GetPersonInfoResponse
-from methods.method import Method
-from helpers.requestmanager import RequestManager
+from healthvaultlib.methods.create_authenticated_session_token import CreateAuthenticatedSessionTokenRequest
+from healthvaultlib.methods.create_authenticated_session_token import CreateAuthenticatedSessionTokenResponse
+from healthvaultlib.methods.getpersoninfo import GetPersonInfoRequest, GetPersonInfoResponse
+from healthvaultlib.methods.method import Method
+from healthvaultlib.helpers.requestmanager import RequestManager
 
 
 class Connection:
     applicationid = None
+    healthserviceurl = None
+    thumbprint = None
     shared_secret = None
+    auth_token = None
     user_auth_token = None
     personid = None
     recordid = None
 
     isauthenticated = False
 
-    def __init__(self, appid):
+    def __init__(self, appid, healthserviceurl):
         self.applicationid = appid
+        self.healthserviceurl = healthserviceurl
 
     def connect(self):
-        cast_request = CreateAuthenticatedSessionTokenRequest(self.applicationid)
+        cast_request = CreateAuthenticatedSessionTokenRequest(self)
         cast_response = CreateAuthenticatedSessionTokenResponse()
         method = Method(cast_request, cast_response)
 
         requestmgr = RequestManager(method, self)
         requestmgr.makerequest()
 
-        self.shared_secret = requestmgr.response.shared_secret
-        self.user_auth_token = requestmgr.response.user_auth_token
+        self.shared_secret = requestmgr.method.response.shared_secret
+        self.user_auth_token = requestmgr.method.response.user_auth_token
         self.isauthenticated = True
 
     def set_person_and_record(self, personid, recordid):
@@ -41,4 +45,5 @@ class Connection:
         method = Method(getpersoninfo_request, getpersoninfo_response)
         requestmgr = RequestManager(method, self)
         requestmgr.makerequest()
-        self.set_person_and_record(requestmgr.response.personid, requestmgr.response.recordid)
+        self.set_person_and_record(requestmgr.response.personinfo.personid,
+                                   requestmgr.response.personinfo.selected_record_id)
