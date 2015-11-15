@@ -14,7 +14,7 @@ HV_APPID 	 = '841f8f25-352d-4cb1-8c36-bdb6dd875b64'
 #HV_APPID 	 = '50f5b816-e31c-4670-bc99-b2e4c64ad2b7'
 HV_SHELL_URL	 = 'https://account.healthvault-ppe.com'
 
-HV_SERVICE_SERVER  = 'platform.healthvault-ppe.com'
+HV_SERVICE_SERVER  = 'https://platform.healthvault-ppe.com/platform/wildcat.ashx'
 
 APP_ACTION_URL   = 'http://127.0.0.1:8000/mvaultaction/'
 

@@ -17,8 +17,6 @@ class PersonInfo():
         self.personid = xmlutils.get_string_by_xpath('person-info/person-id/text()')
         self.name = xmlutils.get_string_by_xpath('person-info/name/text()')
         self.selected_record_id = xmlutils.get_string_by_xpath('person-info/selected-record-id/text()')
-        self.more_records = xmlutils.get_bool_by_xpath('more-records/text()')
-        if self.more_records:
-            records = info_element.xpath('record')
-            for i in records:
-                self.records.append(Record(i))
+        records = info_element.xpath('person-info/record')
+        for i in records:
+            self.records.append(Record(i))

@@ -17,12 +17,11 @@ class Record():
 
     def parse_xml(self, record_xml):
         xmlhelper = XmlUtils(record_xml)
-        self.id = xmlhelper.get_string_by_xpath('/id/text()')
-        self.record_custodian = xmlhelper.get_bool_by_xpath('/record-custodian/text()')
-        self.rel_type = xmlhelper.get_int_by_xpath('/rel-type/text()')
-        self.rel_name = xmlhelper.get_string_by_xpath('/rel-name/text()')
-        self.auth_expires = xmlhelper.get_datetime_by_xpath('/auth-expires/text()')
-        self.auth_expired = xmlhelper.get_bool_by_xpath('/auth-expired/text()')
-        self.display_name = xmlhelper.get_string_by_xpath('/display-name/text()')
-        self.date_created = xmlhelper.get_datetime_by_xpath('/date-created/text()')
-
+        self.id = xmlhelper.get_string('id')
+        self.record_custodian = xmlhelper.get_bool('record-custodian')
+        self.rel_type = xmlhelper.get_int('rel-type')
+        self.rel_name = xmlhelper.get_string('rel-name')
+        self.auth_expires = xmlhelper.get_datetime('auth-expires')
+        self.auth_expired = xmlhelper.get_bool('auth-expired')
+        self.display_name = xmlhelper.get_string('display-name')
+        self.date_created = xmlhelper.get_datetime('date-created')

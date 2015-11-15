@@ -1,6 +1,7 @@
 from lxml import etree
 
 from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
+from healthvaultlib.methods.method import Method
 
 class GetThingsRequest(RequestBase):
     
@@ -34,3 +35,9 @@ class GetThingsResponse(ResponseBase):
 
     def parse_response(self, response):
         self.parse_info(response)
+
+class GetThings(Method):
+
+    def __init__(self):
+        self.request = GetThingsRequest()
+        self.response = GetThingsResponse()

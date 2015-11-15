@@ -4,8 +4,9 @@ import datetime
 from lxml import etree
 
 from healthvaultlib.hvcrypto import HVCrypto
-from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
+from healthvaultlib.methods.method import Method
 from healthvaultlib.utils.xmlutils import XmlUtils
+from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
 
 class CreateAuthenticatedSessionTokenRequest(RequestBase):
 
@@ -73,3 +74,9 @@ class CreateAuthenticatedSessionTokenResponse(ResponseBase):
         xmlutils = XmlUtils(self.info)
         self.shared_secret = xmlutils.get_string_by_xpath('shared-secret/text()')
         self.auth_token = xmlutils.get_string_by_xpath('token/text()')
+
+class CreateAuthenticatedSessionToken(Method):
+    
+    def __init__(self, connection):
+        self.request = CreateAuthenticatedSessionTokenRequest(connection)
+        self.response = CreateAuthenticatedSessionTokenResponse()

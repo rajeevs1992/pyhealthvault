@@ -1,8 +1,5 @@
-from healthvaultlib.methods.create_authenticated_session_token import CreateAuthenticatedSessionTokenRequest
-from healthvaultlib.methods.create_authenticated_session_token import CreateAuthenticatedSessionTokenResponse
-from healthvaultlib.methods.getpersoninfo import GetPersonInfoRequest, GetPersonInfoResponse
-from healthvaultlib.methods.method import Method
-from healthvaultlib.helpers.requestmanager import RequestManager
+from healthvaultlib.methods.getpersoninfo import GetPersonInfo
+from healthvaultlib.methods.create_authenticated_session_token import CreateAuthenticatedSessionToken
 
 
 class Connection:
@@ -22,15 +19,11 @@ class Connection:
         self.healthserviceurl = healthserviceurl
 
     def connect(self):
-        cast_request = CreateAuthenticatedSessionTokenRequest(self)
-        cast_response = CreateAuthenticatedSessionTokenResponse()
-        method = Method(cast_request, cast_response)
+        method = CreateAuthenticatedSessionToken(self)
+        method.execute(self)
 
-        requestmgr = RequestManager(method, self)
-        requestmgr.makerequest()
-
-        self.shared_secret = requestmgr.method.response.shared_secret
-        self.auth_token = requestmgr.method.response.auth_token
+        self.shared_secret = method.response.shared_secret
+        self.auth_token = method.response.auth_token
 
         self.isauthenticated = True
 
@@ -41,10 +34,7 @@ class Connection:
     def set_person_and_record_from_personinfo(self):
         if not self.isauthenticated:
             self.connect()
-        getpersoninfo_request = GetPersonInfoRequest()
-        getpersoninfo_response = GetPersonInfoResponse()
-        method = Method(getpersoninfo_request, getpersoninfo_response)
-        requestmgr = RequestManager(method, self)
-        requestmgr.makerequest()
-        self.set_person_and_record(requestmgr.method.response.personinfo.personid,
-                                   requestmgr.method.response.personinfo.selected_record_id)
+        method = GetPersonInfo()
+        method.execute(self)
+        self.set_person_and_record(method.response.personinfo.personid,
+                                   method.response.personinfo.selected_record_id)

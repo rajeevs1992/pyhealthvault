@@ -4,6 +4,7 @@ import base64
 import hashlib
 import httplib
 import datetime
+import urlparse
 
 from lxml import etree
 
@@ -51,24 +52,35 @@ class RequestManager():
         request_wrapper.append(self.header)
         request_wrapper.append(self.info)
 
-        print '[REQUEST]'
-        print etree.tostring(request_wrapper, pretty_print=True)
+        retry_count = 0
+        while retry_count < 3:
+            retry_count += 1
+            print 'Trial number %d' % (retry_count)
+            print '[REQUEST]'
+            print etree.tostring(request_wrapper, pretty_print=True)
 
-        response = self.sendrequest(etree.tostring(request_wrapper))
+            response = self.sendrequest(etree.tostring(request_wrapper))
 
-        print '[RESPONSE]'
-        print etree.tostring(response, pretty_print=True)
-        
-        self.throw_if_error(response)
+            print '[RESPONSE]'
+            print etree.tostring(response, pretty_print=True)
+            try:
+                self.manage_exception(response)
+            except HealthServiceException as e:
+                if retry_count == 3:
+                    raise e
+                else:
+                    continue
+            self.method.response.parse_response(response)
 
-        self.method.response.parse_response(response)
-
-    def throw_if_error(self, response):
+    def manage_exception(self, response):
         status_code = int(response.xpath('/response/status/code/text()')[0])
+        if status_code == 0:
+            return
+        if status_code == 65:
+            self.connection.connect()
         if status_code != 0:
             error_description = response.xpath('/response/status/error/message/text()')[0]
             raise HealthServiceException(error_description)
-       
 
     def sendrequest(self, request):
         '''
@@ -76,8 +88,13 @@ class RequestManager():
             to the health service url specified in the
             settings.py
         '''
-        conn = httplib.HTTPSConnection(self.connection.healthserviceurl, 443)
-        conn.putrequest('POST','/platform/wildcat.ashx')
+        url = urlparse.urlparse(self.connection.healthserviceurl)
+        conn = None
+        if url.scheme == 'https':
+            conn = httplib.HTTPSConnection(url.netloc)
+        else:
+            conn = httplib.HTTPConnection(url.netloc)
+        conn.putrequest('POST', url.path)
         conn.putheader('Content-Type','text/xml')
         conn.putheader('Content-Length','%d' % len(request))
         conn.endheaders()
@@ -101,15 +118,15 @@ class RequestManager():
         method_version.text = str(self.method.request.version)
         header.append(method_version)
 
+        if self.connection.personid is not None:
+            target_person_id = etree.Element('target-person-id')
+            target_person_id.text = self.connection.personid
+            header.append(target_person_id)
+
         if self.connection.recordid is not None:
             record_id = etree.Element('record-id')
             record_id.text = self.connection.recordid
             header.append(record_id)
-
-        if self.connection.personid is not None:
-            person_id = etree.Element('person-id')
-            person_id.text = self.connection.personid
-            header.append(person_id)
 
         if self.connection.auth_token is not None and self.connection.user_auth_token is not None:
             auth_session = etree.Element('auth-session')
