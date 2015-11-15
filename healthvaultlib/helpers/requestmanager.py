@@ -53,7 +53,8 @@ class RequestManager():
         request_wrapper.append(self.info)
 
         retry_count = 0
-        while retry_count < 3:
+        MAX_RETRY = 1
+        while retry_count < MAX_RETRY:
             retry_count += 1
             print 'Trial number %d' % (retry_count)
             print '[REQUEST]'
@@ -64,20 +65,28 @@ class RequestManager():
             print '[RESPONSE]'
             print etree.tostring(response, pretty_print=True)
             try:
-                self.manage_exception(response)
+                action = self.manage_exception(response)
+                if action == 0:
+                    # All OK, continue to parse response
+                    # and break retry loop
+                    self.method.response.parse_response(response)
+                    break
             except HealthServiceException as e:
-                if retry_count == 3:
+                if retry_count == MAX_RETRY:
                     raise e
                 else:
                     continue
-            self.method.response.parse_response(response)
 
     def manage_exception(self, response):
         status_code = int(response.xpath('/response/status/code/text()')[0])
         if status_code == 0:
-            return
+            # All successful, method worked as expected
+            return 0
         if status_code == 65:
+            # Auth token expired, return a NZ int, 
+            # this will cause the SDK to retry request
             self.connection.connect()
+            return 1
         if status_code != 0:
             error_description = response.xpath('/response/status/error/message/text()')[0]
             raise HealthServiceException(error_description)
@@ -128,16 +137,23 @@ class RequestManager():
             record_id.text = self.connection.recordid
             header.append(record_id)
 
-        if self.connection.auth_token is not None and self.connection.user_auth_token is not None:
+        if self.connection.auth_token is not None:
             auth_session = etree.Element('auth-session')
 
             auth_token = etree.Element('auth-token')
             auth_token.text = self.connection.auth_token
             auth_session.append(auth_token)
 
-            user_auth_token = etree.Element('user-auth-token')
-            user_auth_token.text = self.connection.user_auth_token
-            auth_session.append(user_auth_token)
+            if self.connection.user_auth_token is not None:
+                user_auth_token = etree.Element('user-auth-token')
+                user_auth_token.text = self.connection.user_auth_token
+                auth_session.append(user_auth_token)
+            else:
+                offline_person_info = etree.Element('offline-person-info')
+                offline_person_id = etree.Element('offline-person-id')
+                offline_person_id.text = self.connection.personid
+                offline_person_info.append(offline_person_id)
+                auth_session.append(offline_person_info)
 
             header.append(auth_session)
         else:
@@ -154,7 +170,7 @@ class RequestManager():
         header.append(country)
 
         msg_time = etree.Element('msg-time')
-        msg_time.text = datetime.datetime.now().isoformat()
+        msg_time.text = datetime.datetime.now(pytz.utc).isoformat()
         header.append(msg_time)
 
         msg_ttl = etree.Element('msg-ttl')

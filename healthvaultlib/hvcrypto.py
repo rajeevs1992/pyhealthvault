@@ -34,7 +34,7 @@ class HVCrypto(object):
   		rsa_n_bit_length 	= 2048 
   		self.em 		= (rsa_n_bit_length + 7)/8
   		#['n', 'e', 'd', 'p', 'q', 'u']
-		exponent = 65537
+		exponent = long(65537)
   		self.private_key = RSA.construct((public_key_long, exponent, private_key_long))
 
 	def i2osp(self,long_integer, block_size ):

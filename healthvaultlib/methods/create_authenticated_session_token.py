@@ -33,7 +33,7 @@ class CreateAuthenticatedSessionTokenRequest(RequestBase):
         content.append(_hmac)
 
         signing_time = etree.Element('signing-time')
-        signing_time.text = datetime.datetime.now().isoformat()
+        signing_time.text = datetime.datetime.now(pytz.utc).isoformat()
         content.append(signing_time)
 
         return content

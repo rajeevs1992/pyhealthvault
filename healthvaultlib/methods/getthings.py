@@ -5,25 +5,17 @@ from healthvaultlib.methods.method import Method
 
 class GetThingsRequest(RequestBase):
     
-    def __init__(self):
+    groups = []
+    
+    def __init__(self, groups):
         self.name = 'GetThings'
         self.version = 3
+        self.groups = groups
 
     def get_info(self):
         info = etree.Element('info')
-        group = etree.Element('group')
-        _filter = etree.Element('filter')
-        type_id = etree.Element('type-id')
-        type_id.text = '3d34d87e-7fc1-4153-800f-f56592cb0d17'
-        _filter.append(type_id)
-        _format = etree.Element('format')
-        section = etree.Element('section')
-        section.text = 'core'
-        xml = etree.Element('xml')
-        _format.append(section)
-        _format.append(xml)
-        group.append(_format)
-        info.append(group)
+        for group in self.groups:
+            info.append(group.get_xml())
         return info
         
 
@@ -38,6 +30,6 @@ class GetThingsResponse(ResponseBase):
 
 class GetThings(Method):
 
-    def __init__(self):
-        self.request = GetThingsRequest()
+    def __init__(self, groups):
+        self.request = GetThingsRequest(groups)
         self.response = GetThingsResponse()
