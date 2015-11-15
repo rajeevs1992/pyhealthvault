@@ -21,6 +21,8 @@ class ResponseBase(MethodBase):
         pass
 
     def get_info_namespace(self):
+        if self.version  == 1:
+            return {'wc' : ('urn:com.microsoft.wc.methods.response.%s' % (self.name))}
         return {'wc' : ('urn:com.microsoft.wc.methods.response.%s%d' % (self.name, self.version))}
 
     def parse_info(self, response):

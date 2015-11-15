@@ -7,6 +7,8 @@ import datetime
 
 from lxml import etree
 
+from healthvaultlib.exceptions.healthserviceexception import HealthServiceException
+
 class RequestManager():
     
     connection = None
@@ -65,7 +67,7 @@ class RequestManager():
         status_code = int(response.xpath('/response/status/code/text()')[0])
         if status_code != 0:
             error_description = response.xpath('/response/status/error/message/text()')[0]
-            raise Exception(error_description)
+            raise HealthServiceException(error_description)
        
 
     def sendrequest(self, request):
@@ -135,7 +137,7 @@ class RequestManager():
         header.append(country)
 
         msg_time = etree.Element('msg-time')
-        msg_time.text = datetime.datetime.now(pytz.utc).isoformat()
+        msg_time.text = datetime.datetime.now().isoformat()
         header.append(msg_time)
 
         msg_ttl = etree.Element('msg-ttl')

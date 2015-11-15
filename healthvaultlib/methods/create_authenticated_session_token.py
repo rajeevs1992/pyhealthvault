@@ -28,11 +28,11 @@ class CreateAuthenticatedSessionTokenRequest(RequestBase):
         content.append(appid)
 
         _hmac = etree.Element('hmac')
-        _hmac.text = 'HMACSHA256'
+        _hmac.text = 'HMACSHA1'
         content.append(_hmac)
 
         signing_time = etree.Element('signing-time')
-        signing_time.text = datetime.datetime.now(pytz.utc).isoformat()
+        signing_time.text = datetime.datetime.now().isoformat()
         content.append(signing_time)
 
         return content

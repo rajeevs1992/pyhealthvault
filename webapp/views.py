@@ -31,8 +31,8 @@ def mvaultaction(request):
      if target == "home":
         return HttpResponseRedirect('/')
      if target == "appauthsuccess":
-        wctoken = request.GET['wctoken']
-        return HttpResponseRedirect('/mvaultentry?target=appauthsuccess&wctoken=' + wctoken)
+        request.session['wctoken'] = request.GET['wctoken']
+        return HttpResponseRedirect('/mvaultentry?target=appauthsuccess&wctoken=')
      if target == "serviceagreement":
         return HttpResponseRedirect('/YouAPPTermsOfService.html')
      if target == "help":
@@ -55,7 +55,7 @@ def mvaultentry(request):
     target = request.GET['target'].lower()
     wctoken = ""
     if target == "appauthsuccess":
-        wctoken = request.GET['wctoken']
+        wctoken = request.session['wctoken']
     else:
         return HttpResponse("cannot get wctoken")
     conn = Connection(HV_APPID, HV_SERVICE_SERVER)

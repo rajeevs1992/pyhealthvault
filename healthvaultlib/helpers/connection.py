@@ -46,5 +46,5 @@ class Connection:
         method = Method(getpersoninfo_request, getpersoninfo_response)
         requestmgr = RequestManager(method, self)
         requestmgr.makerequest()
-        self.set_person_and_record(requestmgr.response.personinfo.personid,
-                                   requestmgr.response.personinfo.selected_record_id)
+        self.set_person_and_record(requestmgr.method.response.personinfo.personid,
+                                   requestmgr.method.response.personinfo.selected_record_id)
