@@ -2,16 +2,16 @@ from lxml import etree
 from healthvaultlib.utils.xmlutils import XmlUtils
 
 class Record():
-    id = None
-    record_custodian = False
-    rel_type = None
-    rel_name = None
-    auth_expires = None
-    auth_expired = False
-    display_name = None
-    date_created = None
 
     def __init__(self, record_xml=None):
+        self.id = None
+        self.record_custodian = False
+        self.rel_type = None
+        self.rel_name = None
+        self.auth_expires = None
+        self.auth_expired = False
+        self.display_name = None
+        self.date_created = None
         if record_xml is not None:
             self.parse_xml(record_xml)
 

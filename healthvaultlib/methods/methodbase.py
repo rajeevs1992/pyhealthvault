@@ -1,9 +1,7 @@
 from lxml import etree
 
 class MethodBase:
-    name = ''
-    version = 1
-
+    
     def __init__(self, name, version):
         self.name = name
         self.version = version
@@ -15,10 +13,9 @@ class RequestBase(MethodBase):
 
 
 class ResponseBase(MethodBase):
-    info = None
 
     def __init__(self):
-        pass
+        self.info = None
 
     def get_info_namespace(self):
         if self.version  == 1:

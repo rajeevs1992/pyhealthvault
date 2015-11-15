@@ -14,9 +14,9 @@ class GetPersonInfoRequest(RequestBase):
         return info
 
 class GetPersonInfoResponse(ResponseBase):
-    personinfo = None
 
     def __init__(self):
+        self.personinfo = None
         self.name = 'GetPersonInfo'
         self.version = 1
 

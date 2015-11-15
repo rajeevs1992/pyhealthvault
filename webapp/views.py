@@ -5,6 +5,11 @@ from settings import *
 
 from healthvaultlib.helpers.connection import Connection
 from healthvaultlib.methods.getthings import GetThings
+from healthvaultlib.objects.thinggroup import ThingGroup
+from healthvaultlib.objects.thingfilter import ThingFilter
+from healthvaultlib.objects.thingformat import ThingFormat
+
+from lxml import etree
 
 def index(request):
   loginurl = HV_SHELL_URL+"/redirect.aspx?target=AUTH&targetqs=?appid="+HV_APPID+"%26redirect="+APP_ACTION_URL
@@ -51,9 +56,25 @@ def mvaultaction(request):
      return HttpResponse('')
 
 def mvaultentry(request):
-    method = GetThings()
+    _filter = ThingFilter()
+    _format = ThingFormat()
+    _format.sections.append('core')
+    _filter.typeids.append('40750a6a-89b2-455c-bd8d-b420a4cb500b')
+    group = ThingGroup([_filter])
+    group._format = _format
+
+    flt2 = ThingFilter()
+    fmt2 = ThingFormat()
+    fmt2.sections.append('core')
+    flt2.typeids.append('3b3e6b16-eb69-483c-8d7e-dfe116ae6092')
+    grp2 = ThingGroup([flt2])
+    grp2._format = fmt2
+    
+
+    method = GetThings([group, grp2])
     method.execute(request.session['connection'])
-    return render_to_response('hvdata.html', {})
+    basic_demographic = method.response.groups[1].healthrecorditems
+    return render_to_response('hvdata.html', {'heights' : method.response.groups[0].healthrecorditems})
 
 def set_authenticated_connection(request, wctoken):
     if 'connection' not in request.session:

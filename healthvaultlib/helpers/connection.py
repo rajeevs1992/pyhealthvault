@@ -3,22 +3,22 @@ from healthvaultlib.methods.create_authenticated_session_token import CreateAuth
 
 
 class Connection:
-    applicationid = None
-    healthserviceurl = None
-    thumbprint = None
-    shared_secret = None
-    auth_token = None
-    user_auth_token = None
-    personid = None
-    recordid = None
-
-    isauthenticated = False
 
     def __init__(self, appid, healthserviceurl):
+        self.thumbprint = None
+        self.shared_secret = None
+        self.auth_token = None
+        self.user_auth_token = None
+        self.personid = None
+        self.recordid = None
+
+        self.isauthenticated = False
         self.applicationid = appid
         self.healthserviceurl = healthserviceurl
 
     def connect(self):
+        self.auth_token = None
+
         method = CreateAuthenticatedSessionToken(self)
         method.execute(self)
 

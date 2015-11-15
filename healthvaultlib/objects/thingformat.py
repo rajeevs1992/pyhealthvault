@@ -1,20 +1,19 @@
 from lxml import etree
 
 class ThingFormat():
-    sections = []
-    xml = None
 
     def __init__(self):
-        pass
+        self.sections = []
+        self.xml = None
 
     def get_xml(self):
         _format = etree.Element('format')
         if self.sections:
             self.add_sections(_format)
+        xml = etree.Element('xml')
         if self.xml is not None:
-            xml = etree.Element('xml')
-            xml.text = self.xml
-            _format.append(xml)
+            xml.append(etree.fromstring(self.xml))
+        _format.append(xml)
         return _format
 
     def add_sections(self, _filter):

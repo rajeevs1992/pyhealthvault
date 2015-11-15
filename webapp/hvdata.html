@@ -4,15 +4,32 @@
 </head>
 <body>
 
-<center><h2>Sample HealthVault Web App using pyHealthVault</h2></center>
-Your Gender and Birth Year:  {{basicdemographic}}
-
-<br/>
 <a href='/mvaultaction/?target=signout'>Signout</a>
+<center><h2>Sample HealthVault Web App using pyHealthVault</h2></center>
+Your Gender and Birth Year:  {{basicdemographic.when}}
 
-<br/>
-<br/>
-<small>Powerful you have become, the dark side I sense in you -- Master Yoda</small>
-
+<table border='1'>
+<tr>
+    <th>
+        Value in meters
+    </th>
+    <th>
+        Display value
+    </th>
+    <th>
+        Source
+    </th>
+    <th>
+        When
+    </th>
+</tr>
+{% for i in heights %}
+<tr>
+    <td>{{ i.value_m }}</td>
+    <td>{{ i.display_value }}</td>
+    <td>{{ i.source }}</td>
+    <td>{{ i.when }}</td>
+</tr>
+{% endfor %}
 </body>
 </html>

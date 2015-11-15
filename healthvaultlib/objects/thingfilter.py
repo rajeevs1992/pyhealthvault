@@ -1,9 +1,9 @@
 from lxml import etree
 
 class ThingFilter():
-    typeids = []
 
     def __init__(self):
+        self.typeids = []
         pass
 
     def get_xml(self):

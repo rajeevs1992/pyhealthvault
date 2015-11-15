@@ -12,14 +12,10 @@ from healthvaultlib.exceptions.healthserviceexception import HealthServiceExcept
 
 class RequestManager():
     
-    connection = None
-
-    method = None
-    info = None
-    header = None
-    auth = None
-
     def __init__(self, method, connection):
+        self.info = None
+        self.header = None
+        self.auth = None
         self.method = method
         self.connection = connection
 

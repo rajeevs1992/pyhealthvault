@@ -1,8 +1,10 @@
 from dateutil import parser
-class XmlUtils:
-    element = None
+from datetime import datetime
+from lxml import etree
 
-    def __init__(self, element = None):
+class XmlUtils:
+
+    def __init__(self, element=None):
         self.element = element
 
     def get_string_by_xpath(self, xpath):
@@ -28,6 +30,19 @@ class XmlUtils:
     def get_datetime_by_xpath(self, xpath):
         value = self.get_string_by_xpath(xpath)
         return parser.parse(value) if value is not None else None
+
+    def get_datetime_from_when(self, when_node):
+        xmlutils = XmlUtils(when_node)
+        y = xmlutils.get_int_by_xpath('date/y/text()')
+        m = xmlutils.get_int_by_xpath('date/m/text()')
+        d = xmlutils.get_int_by_xpath('date/d/text()')
+        h = xmlutils.get_int_by_xpath('time/h/text()')
+        _m = xmlutils.get_int_by_xpath('time/m/text()')
+        s = xmlutils.get_int_by_xpath('time/s/text()')
+        if h is None:
+            return datetime(y, m, d)
+        else:
+            return datetime(y, m, d, h, _m, s)
 
     def get_string(self, attributename):
         value = self.element.get(attributename)

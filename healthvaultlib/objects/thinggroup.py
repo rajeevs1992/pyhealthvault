@@ -1,10 +1,9 @@
 from lxml import etree
 
 class ThingGroup():
-    filters = None
-    _format = None
 
     def __init__(self, filters):
+        self._format = None
         self.filters = filters
     
     def get_xml(self):

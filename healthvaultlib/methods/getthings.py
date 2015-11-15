@@ -1,11 +1,10 @@
 from lxml import etree
 
-from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
 from healthvaultlib.methods.method import Method
+from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
+from healthvaultlib.objects.thinggroupresponse import ThingGroupResponse
 
 class GetThingsRequest(RequestBase):
-    
-    groups = []
     
     def __init__(self, groups):
         self.name = 'GetThings'
@@ -18,15 +17,17 @@ class GetThingsRequest(RequestBase):
             info.append(group.get_xml())
         return info
         
-
 class GetThingsResponse(ResponseBase):
-    
+
     def __init__(self):
+        self.groups = []
         self.name = 'GetThings'
         self.version = 3
 
     def parse_response(self, response):
         self.parse_info(response)
+        for group in self.info.xpath('group'):
+            self.groups.append(ThingGroupResponse(group))
 
 class GetThings(Method):
 

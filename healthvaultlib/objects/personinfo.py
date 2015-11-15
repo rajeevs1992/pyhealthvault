@@ -1,14 +1,13 @@
 from healthvaultlib.utils.xmlutils import XmlUtils
 from healthvaultlib.objects.record import Record
-
+from lxml import etree
 class PersonInfo():
-    personid = None
-    name = None
-    selected_record_id = None
-    more_records = False
-    records = []
 
     def __init__(self, info_element=None):
+        self.personid = None
+        self.name = None
+        self.selected_record_id = None
+        self.records = []
         if info_element is not None:
             self.parse_xml(info_element)
 
