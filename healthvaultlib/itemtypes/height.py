@@ -19,4 +19,5 @@ class Height(HealthRecordItem):
         self.value_m = xmlutils.get_float_by_xpath('data-xml/height/value/m/text()')
         display_value =  xmlutils.get_float_by_xpath('data-xml/height/value/display/text()')
         display_unit =  xmlutils.get_string_by_xpath('data-xml/height/value/display/@units')
-        self.display_value = "%f%s" % (display_value, display_unit)
+        if display_value:
+            self.display_value = "%f%s" % (display_value, display_unit)

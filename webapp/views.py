@@ -34,7 +34,12 @@ def mvaultaction(request):
      if target == "home":
         return HttpResponseRedirect('/')
      if target == "appauthsuccess":
-        set_authenticated_connection(request, request.GET['wctoken'])
+        wctoken = ''
+        if request.method == 'GET':
+            wctoken = request.GET['wctoken']
+        else:
+            wctoken = request.POST['wctoken']
+        set_authenticated_connection(request, wctoken)
         return HttpResponseRedirect('/mvaultentry?target=appauthsuccess')
      if target == "serviceagreement":
         return HttpResponseRedirect('/YouAPPTermsOfService.html')
@@ -73,8 +78,10 @@ def mvaultentry(request):
 
     method = GetThings([group, grp2])
     method.execute(request.session['connection'])
-    basic_demographic = method.response.groups[1].healthrecorditems
-    return render_to_response('hvdata.html', {'heights' : method.response.groups[0].healthrecorditems})
+    args = {}
+    args['demographic'] = method.response.groups[1].healthrecorditems[0]
+    args['heights'] = method.response.groups[0].healthrecorditems
+    return render_to_response('hvdata.html', args)
 
 def set_authenticated_connection(request, wctoken):
     if 'connection' not in request.session:

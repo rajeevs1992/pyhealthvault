@@ -123,9 +123,9 @@ class RequestManager():
         method_version.text = str(self.method.request.version)
         header.append(method_version)
 
-        if self.connection.personid is not None:
+        if self.connection.targetpersonid is not None:
             target_person_id = etree.Element('target-person-id')
-            target_person_id.text = self.connection.personid
+            target_person_id.text = self.connection.targetpersonid
             header.append(target_person_id)
 
         if self.connection.recordid is not None:

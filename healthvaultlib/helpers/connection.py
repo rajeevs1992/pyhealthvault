@@ -9,6 +9,7 @@ class Connection:
         self.shared_secret = None
         self.auth_token = None
         self.user_auth_token = None
+        self.targetpersonid = None
         self.personid = None
         self.recordid = None
 

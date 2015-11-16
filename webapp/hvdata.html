@@ -6,7 +6,13 @@
 
 <a href='/mvaultaction/?target=signout'>Signout</a>
 <center><h2>Sample HealthVault Web App using pyHealthVault</h2></center>
-Your Gender and Birth Year:  {{basicdemographic.when}}
+Your Gender and Birth Year:  {{demographic.gender}} 
+{{demographic.birthyear}} 
+{{ demographic.country.text }} 
+{{ demographic.country.value }}
+{{ demographic.country.family }}
+{{ demographic.effective_date }}
+{{ demographic.source }}
 
 <table border='1'>
 <tr>

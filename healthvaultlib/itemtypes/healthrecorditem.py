@@ -29,6 +29,6 @@ class HealthRecordItem(object):
 
         self.thing_state = xmlutils.get_string_by_xpath('thing-state/text()')
         self.flags = xmlutils.get_int_by_xpath('flags/text()')
-        self.effective_date = xmlutils.get_datetime_by_xpath('/thing/eff-date/text()')
+        self.effective_date = xmlutils.get_datetime_by_xpath('eff-date/text()')
 
         self.source = xmlutils.get_string_by_xpath('data-xml/common/source/text()')
