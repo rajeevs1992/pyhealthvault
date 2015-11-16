@@ -14,7 +14,7 @@ class GetThingsRequest(RequestBase):
     def get_info(self):
         info = etree.Element('info')
         for group in self.groups:
-            info.append(group.get_xml())
+            info.append(group.write_xml())
         return info
         
 class GetThingsResponse(ResponseBase):

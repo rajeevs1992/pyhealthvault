@@ -5,6 +5,7 @@ from settings import *
 
 from healthvaultlib.helpers.connection import Connection
 from healthvaultlib.methods.getthings import GetThings
+from healthvaultlib.methods.putthings import PutThings
 from healthvaultlib.objects.thinggroup import ThingGroup
 from healthvaultlib.objects.thingfilter import ThingFilter
 from healthvaultlib.objects.thingformat import ThingFormat

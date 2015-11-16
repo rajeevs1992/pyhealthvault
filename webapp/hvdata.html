@@ -17,6 +17,12 @@ Your Gender and Birth Year:  {{demographic.gender}}
 <table border='1'>
 <tr>
     <th>
+        Thing ID
+    </th>
+    <th>
+        Version
+    </th>
+    <th>
         Value in meters
     </th>
     <th>
@@ -31,8 +37,10 @@ Your Gender and Birth Year:  {{demographic.gender}}
 </tr>
 {% for i in heights %}
 <tr>
+    <td>{{ i.key.thing_id }}</td>
+    <td>{{ i.key.version_stamp }}</td>
     <td>{{ i.value_m }}</td>
-    <td>{{ i.display_value }}</td>
+    <td>{{ i.display_value }} {{ i.display_unit }}</td>
     <td>{{ i.source }}</td>
     <td>{{ i.when }}</td>
 </tr>

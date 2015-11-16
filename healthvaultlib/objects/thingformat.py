@@ -6,7 +6,7 @@ class ThingFormat():
         self.sections = []
         self.xml = None
 
-    def get_xml(self):
+    def write_xml(self):
         _format = etree.Element('format')
         if self.sections:
             self.add_sections(_format)

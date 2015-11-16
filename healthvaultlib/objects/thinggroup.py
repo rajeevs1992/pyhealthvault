@@ -6,10 +6,10 @@ class ThingGroup():
         self._format = None
         self.filters = filters
     
-    def get_xml(self):
+    def write_xml(self):
         group = etree.Element('group')
         for i in self.filters:
-            group.append(i.get_xml())
+            group.append(i.write_xml())
         if self._format is not None:
-            group.append(self._format.get_xml())
+            group.append(self._format.write_xml())
         return group

@@ -4,27 +4,27 @@ from healthvaultlib.utils.xmlutils import XmlUtils
 from healthvaultlib.itemtypes.healthrecorditem import HealthRecordItem
 
 
-class SleepJournalEntry(HealthRecordItem):
+class Allergy(HealthRecordItem):
 
     def __init__(self, thing_xml=None):
-        super(SleepJournalEntry, self).__init__()
-        self.type_id = '031f5706-7f1a-11db-ad56-7bd355d89593'
+        super(Allergy, self).__init__()
+        self.type_id = '52bf9104-2c5e-4f1f-a66d-552ebcc53df7'
         if thing_xml is not None:
             self.thing_xml = thing_xml
             self.parse_thing()
 
     def __str__(self):
-        return 'SleepJournalEntry'
+        return 'Allergy'
 
     def parse_thing(self):
-        super(SleepJournalEntry, self).parse_thing()
+        super(Allergy, self).parse_thing()
         xmlutils = XmlUtils(self.thing_xml)
 
     def write_xml(self):
-        thing = super(SleepJournalEntry, self).write_xml()
+        thing = super(Allergy, self).write_xml()
         data_xml = etree.Element('data-xml')
-        sleepjournalentry = etree.Element('sleepjournalentry')
+        allergy = etree.Element('allergy')
 
-        data_xml.append(sleepjournalentry)
+        data_xml.append(allergy)
         thing.append(data_xml)
         return thing

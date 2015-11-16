@@ -6,7 +6,7 @@ class ThingFilter():
         self.typeids = []
         pass
 
-    def get_xml(self):
+    def write_xml(self):
         _filter = etree.Element('filter')
         if self.typeids:
             self.add_typeids(_filter)
