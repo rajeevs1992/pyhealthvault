@@ -13,7 +13,6 @@ class ThingKey():
         xmlutils = XmlUtils(key_xml)
         self.thing_id = xmlutils.get_string_by_xpath('text()')
         self.version_stamp = xmlutils.get_string_by_xpath('@version-stamp')
-        print self.thing_id
 
     def write_xml(self):
         thingid = etree.Element('thing-id')

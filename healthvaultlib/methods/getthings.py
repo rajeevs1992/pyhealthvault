@@ -7,6 +7,7 @@ from healthvaultlib.objects.thinggroupresponse import ThingGroupResponse
 class GetThingsRequest(RequestBase):
     
     def __init__(self, groups):
+        super(GetThingsRequest, self).__init__()
         self.name = 'GetThings'
         self.version = 3
         self.groups = groups
@@ -20,6 +21,7 @@ class GetThingsRequest(RequestBase):
 class GetThingsResponse(ResponseBase):
 
     def __init__(self):
+        super(GetThingsResponse, self).__init__()
         self.groups = []
         self.name = 'GetThings'
         self.version = 3

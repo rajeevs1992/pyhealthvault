@@ -6,6 +6,7 @@ from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
 class GetPersonInfoRequest(RequestBase):
     
     def __init__(self):
+        super(GetPersonInfoRequest, self).__init__()
         self.name = 'GetPersonInfo'
         self.version = 1
 
@@ -16,6 +17,7 @@ class GetPersonInfoRequest(RequestBase):
 class GetPersonInfoResponse(ResponseBase):
 
     def __init__(self):
+        super(GetPersonInfoResponse, self).__init__()
         self.personinfo = None
         self.name = 'GetPersonInfo'
         self.version = 1

@@ -49,17 +49,17 @@ class RequestManager():
         request_wrapper.append(self.info)
 
         retry_count = 0
-        MAX_RETRY = 1
+        MAX_RETRY = 3
         while retry_count < MAX_RETRY:
             retry_count += 1
             print 'Trial number %d' % (retry_count)
             print '[REQUEST]'
-            print etree.tostring(request_wrapper, pretty_print=True)
+            print etree.tostring(request_wrapper)
 
             response = self.sendrequest(etree.tostring(request_wrapper))
 
             print '[RESPONSE]'
-            print etree.tostring(response, pretty_print=True)
+            print etree.tostring(response)
             try:
                 action = self.manage_exception(response)
                 if action == 0:
@@ -78,7 +78,7 @@ class RequestManager():
         if status_code == 0:
             # All successful, method worked as expected
             return 0
-        if status_code == 65:
+        if status_code == 8:
             # Auth token expired, return a NZ int, 
             # this will cause the SDK to retry request
             self.connection.connect()

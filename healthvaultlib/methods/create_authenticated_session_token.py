@@ -11,6 +11,7 @@ from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
 class CreateAuthenticatedSessionTokenRequest(RequestBase):
 
     def __init__(self, connection):
+        super(CreateAuthenticatedSessionTokenRequest, self).__init__()
         self.name = 'CreateAuthenticatedSessionToken'
         self.version = 2
         self.connection = connection
@@ -63,6 +64,7 @@ class CreateAuthenticatedSessionTokenRequest(RequestBase):
 class CreateAuthenticatedSessionTokenResponse(ResponseBase):
     
     def __init__(self):
+        super(CreateAuthenticatedSessionTokenResponse, self).__init__()
         self.shared_secret = None
         self.auth_token = None
         self.name = 'CreateAuthenticatedSessionToken'

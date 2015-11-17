@@ -7,6 +7,7 @@ from healthvaultlib.objects.thingkey import ThingKey
 class PutThingsRequest(RequestBase):
     
     def __init__(self, items):
+        super(PutThingsRequest, self).__init__()
         self.name = 'PutThings'
         self.version = 2
         self.healthrecorditems = items
@@ -20,6 +21,7 @@ class PutThingsRequest(RequestBase):
 class PutThingsResponse(ResponseBase):
 
     def __init__(self):
+        super(PutThingsResponse, self).__init__()
         self.thing_keys = []
         self.name = 'PutThings'
         self.version = 1

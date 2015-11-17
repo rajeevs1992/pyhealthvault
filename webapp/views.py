@@ -5,7 +5,6 @@ from settings import *
 
 from healthvaultlib.helpers.connection import Connection
 from healthvaultlib.methods.getthings import GetThings
-from healthvaultlib.methods.putthings import PutThings
 from healthvaultlib.objects.thinggroup import ThingGroup
 from healthvaultlib.objects.thingfilter import ThingFilter
 from healthvaultlib.objects.thingformat import ThingFormat
@@ -80,15 +79,17 @@ def mvaultentry(request):
     method = GetThings([group, grp2])
     method.execute(request.session['connection'])
     args = {}
+    keys = []
     args['demographic'] = method.response.groups[1].healthrecorditems[0]
     args['heights'] = method.response.groups[0].healthrecorditems
     return render_to_response('hvdata.html', args)
 
 def set_authenticated_connection(request, wctoken):
-    if 'connection' not in request.session:
-        conn = Connection(HV_APPID, HV_SERVICE_SERVER)
-        conn.thumbprint = APP_THUMBPRINT
-        conn.user_auth_token = wctoken
-        conn.connect()
-        conn.set_person_and_record_from_personinfo()
-        request.session['connection'] = conn
+    if 'connection' in request.session:
+        del request.session['connection']
+    conn = Connection(HV_APPID, HV_SERVICE_SERVER)
+    conn.thumbprint = APP_THUMBPRINT
+    conn.user_auth_token = wctoken
+    conn.connect()
+    conn.set_person_and_record_from_personinfo()
+    request.session['connection'] = conn

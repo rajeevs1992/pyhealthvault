@@ -19,6 +19,7 @@ class Connection:
 
     def connect(self):
         self.auth_token = None
+        self.shared_secret = None
 
         method = CreateAuthenticatedSessionToken(self)
         method.execute(self)

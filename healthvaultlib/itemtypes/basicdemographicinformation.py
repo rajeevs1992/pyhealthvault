@@ -24,3 +24,29 @@ class BasicDemographicInformation(HealthRecordItem):
             self.country = CodedValue(country_node[0])
         self.postcode = xmlutils.get_string_by_xpath('data-xml/basic/postcode/text()')
 
+    def write_xml(self):
+        thing = super(BasicDemographicInformation, self).write_xml()
+        data_xml = etree.Element('data-xml')
+        basic = etree.Element('basic')
+
+        if self.gender is not None:
+            gender = etree.Element('gender')
+            gender.text = self.gender
+            basic.append(gender)
+
+        if self.country is not None:
+            birthyear = etree.Element('birthyear')
+            birthyear = str(self.birthyear)
+            basic.append(birthyear)
+
+        if self.country is not None:
+            basic.append(self.country.write_xml('country'))
+
+        if self.postcode is not None:
+            postcode = etree.Element('postcode')
+            postcode.text = self.postcode
+            basic.append(postcode)
+
+        data_xml.append(basic)
+        thing.append(data_xml)
+        return thing
