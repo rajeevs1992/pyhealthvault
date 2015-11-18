@@ -1,6 +1,6 @@
 import pytz
 from lxml import etree
-from datetime import datetime
+from datetime import datetime, date
 
 from healthvaultlib.utils.xmlutils import XmlUtils
 from healthvaultlib.objects.thingkey import ThingKey
@@ -60,45 +60,47 @@ class HealthRecordItem(object):
         
         if self.effective_date is not None:
             effective_date = etree.Element('eff-date')
-            effective_date.text = datetime.now(pytz.utc).isoformat()
+            effective_date.text = self.effective_date.isoformat()
             thing.append(effective_date)
 
         return thing
 
-    def get_when_node(self, node_name):
-        now = datetime.now(pytz.utc)
+    def get_when_node(self, node_name, whendate=None):
+        if whendate is None:
+            whendate = datetime.whendate(pytz.utc)
         when = etree.Element(node_name)
 
         date = etree.Element('date')
         
         y = etree.Element('y')
-        y.text = str(now.year)
+        y.text = str(whendate.year)
         date.append(y)
 
         m = etree.Element('m')
-        m.text = str(now.month)
+        m.text = str(whendate.month)
         date.append(m)
 
         d = etree.Element('d')
-        d.text = str(now.day)
+        d.text = str(whendate.day)
         date.append(d)
 
         when.append(date)
 
-        time = etree.Element('time')
+        if isinstance(whendate, datetime):
+            time = etree.Element('time')
 
-        h = etree.Element('h')
-        h.text = str(now.hour)
-        time.append(h)
+            h = etree.Element('h')
+            h.text = str(whendate.hour)
+            time.append(h)
 
-        minutes = etree.Element('m')
-        minutes.text = str(now.minute)
-        time.append(minutes)
+            minutes = etree.Element('m')
+            minutes.text = str(whendate.minute)
+            time.append(minutes)
 
-        s = etree.Element('s')
-        s.text = str(now.second)
-        time.append(s)
+            s = etree.Element('s')
+            s.text = str(whendate.second)
+            time.append(s)
 
-        when.append(time)
+            when.append(time)
         return when
 

@@ -37,7 +37,7 @@ class Height(HealthRecordItem):
         data_xml = etree.Element('data-xml')
         height = etree.Element('height')
 
-        height.append(self.get_when_node('when'))
+        height.append(self.get_when_node('when', self.when))
 
         value = etree.Element('value')
         m = etree.Element('m')
