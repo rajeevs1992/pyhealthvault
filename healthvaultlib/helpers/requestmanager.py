@@ -59,7 +59,7 @@ class RequestManager():
             response = self.sendrequest(etree.tostring(request_wrapper))
 
             print '[RESPONSE]'
-            print etree.tostring(response)
+            print etree.tostring(response, pretty_print=True)
             try:
                 action = self.manage_exception(response)
                 if action == 0:

@@ -25,7 +25,9 @@ class Height(HealthRecordItem):
     def parse_thing(self):
         super(Height, self).parse_thing()
         xmlutils = XmlUtils(self.thing_xml)
-        self.when = xmlutils.get_datetime_from_when(self.thing_xml.xpath('data-xml/height/when')[0])
+        when_node = self.thing_xml.xpath('data-xml/height/when')
+        if len(when_node) > 0:
+            self.when = xmlutils.get_datetime_from_when(when_node[0])
         self.value_m = xmlutils.get_float_by_xpath('data-xml/height/value/m/text()')
         self.display_value =  xmlutils.get_float_by_xpath('data-xml/height/value/display/text()')
         self.display_unit =  xmlutils.get_string_by_xpath('data-xml/height/value/display/@units')
