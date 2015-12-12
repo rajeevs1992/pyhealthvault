@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
-from webapp import urls
 
 urlpatterns = patterns('',
-    (r'', include(urls)),
+    (r'^$', 'webapp.views.index'),
+    (r'^mvaultaction/$', 'webapp.views.mvaultaction'),
+    (r'^mvaultentry/$', 'webapp.views.mvaultentry'),
 )
