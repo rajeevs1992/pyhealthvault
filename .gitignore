@@ -3,5 +3,5 @@ bin
 lib
 local
 include
-db
-offline.py
+build
+dist

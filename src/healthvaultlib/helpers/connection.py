@@ -6,6 +6,9 @@ class Connection:
 
     def __init__(self, appid, healthserviceurl):
         self.thumbprint = None
+        self.publickey = None
+        self.privatekey = None
+
         self.shared_secret = None
         self.auth_token = None
         self.user_auth_token = None

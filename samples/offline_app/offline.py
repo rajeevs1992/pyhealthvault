@@ -7,6 +7,8 @@ from settings import *
 def main():
     conn = Connection(HV_APPID, HV_SERVICE_SERVER)
     conn.thumbprint = APP_THUMBPRINT
+    conn.publickey = APP_PUBLIC_KEY
+    conn.privatekey = APP_PRIVATE_KEY
     conn.connect()
     conn.set_person_and_record('214ade00-dbc1-448a-b409-0762ec814a34', '53ac76dd-c7e7-4d48-ac48-3c22c529704f')
 

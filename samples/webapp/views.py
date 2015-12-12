@@ -64,6 +64,7 @@ def mvaultentry(request):
     _filter = ThingFilter()
     _format = ThingFormat()
     _format.sections.append('core')
+    _format.sections.append('xml')
     _filter.typeids.append('40750a6a-89b2-455c-bd8d-b420a4cb500b')
     group = ThingGroup([_filter])
     group._format = _format
@@ -89,6 +90,8 @@ def set_authenticated_connection(request, wctoken):
         del request.session['connection']
     conn = Connection(HV_APPID, HV_SERVICE_SERVER)
     conn.thumbprint = APP_THUMBPRINT
+    conn.publickey = APP_PUBLIC_KEY
+    conn.privatekey = APP_PRIVATE_KEY
     conn.user_auth_token = wctoken
     conn.connect()
     conn.set_person_and_record_from_personinfo()

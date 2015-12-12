@@ -46,7 +46,7 @@ class CreateAuthenticatedSessionTokenRequest(RequestBase):
         auth_info.append(app_id)
         info.append(auth_info)
 
-        crypto = HVCrypto()
+        crypto = HVCrypto(self.connection.publickey, self.connection.privatekey)
 
         credential = etree.Element('credential')
         appserver2 = etree.Element('appserver2')

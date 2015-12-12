@@ -7,7 +7,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    BASE_DIR+'/webapp' 
+    BASE_DIR
 )
 
 HV_APPID 	 = '841f8f25-352d-4cb1-8c36-bdb6dd875b64'
