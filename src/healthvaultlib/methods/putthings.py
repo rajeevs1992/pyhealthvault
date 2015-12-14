@@ -20,20 +20,23 @@ class PutThingsRequest(RequestBase):
         
 class PutThingsResponse(ResponseBase):
 
-    def __init__(self):
+    def __init__(self, items):
         super(PutThingsResponse, self).__init__()
-        self.thing_keys = []
         self.name = 'PutThings'
         self.version = 1
+        self.healthrecorditems = items
 
     def parse_response(self, response):
         self.parse_info(response)
+        i = 0
         for key in self.info.xpath('thing-id'):
-            self.thing_keys.append(ThingKey(key))
+            thing_key = ThingKey(key)
+            self.healthrecorditems[i].key = thing_key
+            i += 1
 
 
 class PutThings(Method):
 
     def __init__(self, items):
         self.request = PutThingsRequest(items)
-        self.response = PutThingsResponse()
+        self.response = PutThingsResponse(items)

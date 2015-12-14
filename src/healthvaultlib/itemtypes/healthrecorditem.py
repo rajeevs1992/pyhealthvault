@@ -67,7 +67,7 @@ class HealthRecordItem(object):
 
     def get_when_node(self, node_name, whendate=None):
         if whendate is None:
-            whendate = datetime.whendate(pytz.utc)
+            whendate = datetime.now(pytz.utc)
         when = etree.Element(node_name)
 
         date = etree.Element('date')

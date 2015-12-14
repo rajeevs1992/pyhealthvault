@@ -4,7 +4,6 @@ class ThingFilter():
 
     def __init__(self):
         self.typeids = []
-        pass
 
     def write_xml(self):
         _filter = etree.Element('filter')
