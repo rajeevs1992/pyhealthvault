@@ -1,6 +1,5 @@
-from lxml import etree
 from healthvaultlib.itemtypes.itemtype_resolver import ItemTypeResolver
-from healthvaultlib.utils.xmlutils import XmlUtils
+
 
 class ThingGroupResponse():
 

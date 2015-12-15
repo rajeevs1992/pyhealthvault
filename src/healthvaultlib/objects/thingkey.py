@@ -2,6 +2,7 @@ from lxml import etree
 
 from healthvaultlib.utils.xmlutils import XmlUtils
 
+
 class ThingKey():
     def __init__(self, key_xml=None):
         self.thing_id = None
@@ -19,4 +20,3 @@ class ThingKey():
         thingid.text = self.thing_id
         thingid.set('version-stamp', self.version_stamp)
         return thingid
-

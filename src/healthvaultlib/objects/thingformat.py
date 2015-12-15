@@ -1,5 +1,6 @@
 from lxml import etree
 
+
 class ThingFormat():
 
     def __init__(self):

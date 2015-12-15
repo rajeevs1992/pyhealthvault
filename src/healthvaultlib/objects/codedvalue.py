@@ -3,7 +3,7 @@ from healthvaultlib.utils.xmlutils import XmlUtils
 
 
 class CodedValue():
-    
+
     def __init__(self, coded_value_xml=None):
         self.text = None
         self.value = None
@@ -18,30 +18,29 @@ class CodedValue():
             self.family = xmlutils.get_string_by_xpath('code/family/text()')
             self._type = xmlutils.get_string_by_xpath('code/type/text()')
             self.version = xmlutils.get_string_by_xpath('code/version/text()')
-    
+
     def write_xml(self, node_name):
-       
-       codable_value = etee.element(node_name)
-       codable_value.text = self.text
+        codable_value = etree.element(node_name)
+        codable_value.text = self.text
 
-       code = etree.Element('code')
+        code = etree.Element('code')
 
-       value = etree.Element('value')
-       value.text = self.value
-       code.append(value)
+        value = etree.Element('value')
+        value.text = self.value
+        code.append(value)
 
-       family = etree.Element('family')
-       family.text = self.family
-       code.append(family)
+        family = etree.Element('family')
+        family.text = self.family
+        code.append(family)
 
-       _type = etree.Element('type')
-       _type.text = self._type
-       code.append(_type)
+        _type = etree.Element('type')
+        _type.text = self._type
+        code.append(_type)
 
-       version = etree.Element('version')
-       version.text = self.version
-       code.append(version)
+        version = etree.Element('version')
+        version.text = self.version
+        code.append(version)
 
-       codable_value.append(code)
+        codable_value.append(code)
 
-       return codable_value
+        return codable_value

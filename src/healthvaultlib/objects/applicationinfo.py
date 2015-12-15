@@ -3,6 +3,7 @@ from healthvaultlib.objects.authrule import AuthRule
 from healthvaultlib.objects.statement import Statement
 from healthvaultlib.objects.application_binary_content import ApplicationBinaryContent
 
+
 class ApplicationInfo():
 
     def __init__(self, info_element=None):
@@ -61,7 +62,7 @@ class ApplicationInfo():
         if large_logo != []:
             self.large_logo = ApplicationBinaryContent(large_logo[0])
 
-        small_logo = info_element.xpath('application/small-logo') 
+        small_logo = info_element.xpath('application/small-logo')
         if small_logo != []:
             self.small_logo = ApplicationBinaryContent(small_logo[0])
 

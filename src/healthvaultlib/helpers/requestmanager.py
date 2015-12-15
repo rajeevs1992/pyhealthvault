@@ -1,6 +1,7 @@
 import pytz
 import hmac
 import base64
+import socket
 import hashlib
 import httplib
 import datetime
@@ -10,8 +11,9 @@ from lxml import etree
 
 from healthvaultlib.exceptions.healthserviceexception import HealthServiceException
 
+
 class RequestManager():
-    
+
     def __init__(self, method, connection):
         self.info = None
         self.header = None
@@ -40,7 +42,7 @@ class RequestManager():
 
     def makerequest(self):
         self.construct_request()
-        NSMAP = {'wc-request' : 'urn:com.microsoft.wc.request'}
+        NSMAP = {'wc-request': 'urn:com.microsoft.wc.request'}
         root_name = etree.QName('urn:com.microsoft.wc.request', 'request')
         request_wrapper = etree.Element(root_name, nsmap=NSMAP)
         if self.auth is not None:
@@ -79,7 +81,7 @@ class RequestManager():
             # All successful, method worked as expected
             return 0
         if status_code == 8:
-            # Auth token expired, return a NZ int, 
+            # Auth token expired, return a NZ int,
             # this will cause the SDK to retry request
             self.connection.connect()
             return 1
@@ -89,7 +91,7 @@ class RequestManager():
 
     def sendrequest(self, request):
         '''
-            Recieves a request xml as a string and posts it 
+            Recieves a request xml as a string and posts it
             to the health service url specified in the
             settings.py
         '''
@@ -100,8 +102,8 @@ class RequestManager():
         else:
             conn = httplib.HTTPConnection(url.netloc)
         conn.putrequest('POST', url.path)
-        conn.putheader('Content-Type','text/xml')
-        conn.putheader('Content-Length','%d' % len(request))
+        conn.putheader('Content-Type', 'text/xml')
+        conn.putheader('Content-Length', '%d' % len(request))
         conn.endheaders()
         try:
             conn.send(request)
@@ -114,7 +116,7 @@ class RequestManager():
 
     def construct_header(self, infohash):
         header = etree.Element('header')
-        
+
         method = etree.Element('method')
         method.text = self.method.request.name
         header.append(method)

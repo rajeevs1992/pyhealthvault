@@ -1,5 +1,4 @@
 from healthvaultlib.utils.xmlutils import XmlUtils
-from healthvaultlib.objects.xmlmethodversion import XmlMethodVersion
 
 
 class Instance:

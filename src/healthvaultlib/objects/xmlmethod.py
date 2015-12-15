@@ -16,4 +16,3 @@ class XmlMethod:
 
         for i in method_xml.xpath('version'):
             self.version.append(XmlMethodVersion(i))
-

@@ -1,11 +1,12 @@
 from lxml import etree
 
+
 class ThingGroup():
 
     def __init__(self, filters):
         self._format = None
         self.filters = filters
-    
+
     def write_xml(self):
         group = etree.Element('group')
         for i in self.filters:

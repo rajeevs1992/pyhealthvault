@@ -1,6 +1,7 @@
 from healthvaultlib.utils.xmlutils import XmlUtils
 from healthvaultlib.objects.shellredirecttoken import ShellRedirectToken
 
+
 class Shell:
     def __init__(self, shell_xml=None):
         self.url = None

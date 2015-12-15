@@ -1,5 +1,5 @@
-from lxml import etree
 from healthvaultlib.utils.xmlutils import XmlUtils
+
 
 class Record():
 

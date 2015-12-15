@@ -1,6 +1,7 @@
 from healthvaultlib.utils.xmlutils import XmlUtils
 from healthvaultlib.objects.permission import Permission
 
+
 class AuthRule:
     
     def __init__(self, rule_xml=None):

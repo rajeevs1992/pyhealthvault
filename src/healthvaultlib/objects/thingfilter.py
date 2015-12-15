@@ -1,5 +1,6 @@
 from lxml import etree
 
+
 class ThingFilter():
 
     def __init__(self):
@@ -10,7 +11,6 @@ class ThingFilter():
         if self.typeids:
             self.add_typeids(_filter)
         return _filter
-
 
     def add_typeids(self, _filter):
         for i in self.typeids:

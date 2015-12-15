@@ -5,8 +5,9 @@ from healthvaultlib.objects.platform import Platform
 from healthvaultlib.objects.xmlmethod import XmlMethod
 from healthvaultlib.objects.meaningfuluse import MeaningfulUse
 
+
 class ServiceDefinition:
-    
+
     def __init__(self, definition_xml=None):
         self.platform = None
         self.shell = None

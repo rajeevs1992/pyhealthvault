@@ -1,6 +1,7 @@
 from healthvaultlib.utils.xmlutils import XmlUtils
 from healthvaultlib.objects.record import Record
-from lxml import etree
+
+
 class PersonInfo():
 
     def __init__(self, info_element=None):

@@ -1,10 +1,9 @@
-from lxml import etree
-
 from healthvaultlib.utils.xmlutils import XmlUtils
 from healthvaultlib.objects.permission import Permission
 
+
 class ThingTypePermissions:
-    
+
     def __init__(self, permission_xml=None):
         self.thing_type_id = ''
         self.online_access_permissions = None
