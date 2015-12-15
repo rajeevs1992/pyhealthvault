@@ -14,7 +14,7 @@ class TestQueryPermissions(TestBase):
         for i in method.response.permissions:
             self.assertIn(i.thing_type_id, itemtypes)
             self.assertTrue(i.offline_access_permissions is not None or 
-                            i.online_access_permissions is not None != 0)
+                            i.online_access_permissions is not None)
             if i.offline_access_permissions is not None:
                 self.assertNotEqual(i.offline_access_permissions.permission, 0)
             if i.online_access_permissions is not None:
