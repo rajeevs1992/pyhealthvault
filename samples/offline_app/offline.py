@@ -1,8 +1,8 @@
+from settings import HV_APPID, HV_SERVICE_SERVER
 from healthvaultlib.helpers.connection import Connection
-from healthvaultlib.methods.putthings import PutThings
+from settings import APP_THUMBPRINT, APP_PUBLIC_KEY, APP_PRIVATE_KEY
 from healthvaultlib.methods.querypermissions import QueryPermissions
-from healthvaultlib.itemtypes.height import Height
-from settings import *
+
 
 def main():
     conn = Connection(HV_APPID, HV_SERVICE_SERVER)

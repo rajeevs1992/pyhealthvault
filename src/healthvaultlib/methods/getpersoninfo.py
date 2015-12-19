@@ -24,7 +24,7 @@ class GetPersonInfoResponse(ResponseBase):
 
     def parse_response(self, response):
         self.parse_info(response)
-        self.personinfo = PersonInfo(self.info)
+        self.personinfo = PersonInfo(self.info.xpath('person-info'))
 
 class GetPersonInfo(Method):
     

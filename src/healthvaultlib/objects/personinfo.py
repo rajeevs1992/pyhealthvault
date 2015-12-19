@@ -14,9 +14,9 @@ class PersonInfo():
 
     def parse_xml(self, info_element):
         xmlutils = XmlUtils(info_element)
-        self.personid = xmlutils.get_string_by_xpath('person-info/person-id/text()')
-        self.name = xmlutils.get_string_by_xpath('person-info/name/text()')
-        self.selected_record_id = xmlutils.get_string_by_xpath('person-info/selected-record-id/text()')
-        records = info_element.xpath('person-info/record')
+        self.personid = xmlutils.get_string_by_xpath('person-id/text()')
+        self.name = xmlutils.get_string_by_xpath('name/text()')
+        self.selected_record_id = xmlutils.get_string_by_xpath('selected-record-id/text()')
+        records = info_element.xpath('record')
         for i in records:
             self.records.append(Record(i))

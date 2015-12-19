@@ -16,7 +16,7 @@ class GetServiceDefinitionRequest(RequestBase):
         info = etree.Element('info')
         if self.updated_date is not None:
             updated_date = etree.Element('updated-date')
-            all_languages.text = self.updated_date.isoformat()
+            updated_date.text = self.updated_date.isoformat()
             info.append(updated_date)
         if self.response_sections != []:
             response_sections = etree.Element('response-sections')
