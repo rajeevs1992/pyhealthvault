@@ -75,7 +75,7 @@ def mvaultentry(request):
     flt2.typeids.append('3b3e6b16-eb69-483c-8d7e-dfe116ae6092')
     grp2 = ThingGroup([flt2])
     grp2._format = fmt2
-    
+
 
     method = GetThings([group, grp2])
     method.execute(request.session['connection'])

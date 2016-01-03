@@ -63,3 +63,8 @@ class XmlUtils:
     def get_datetime(self, attributename):
         value = self.get_string(attributename)
         return parser.parse(value) if value is not None else None
+
+    def get_lang(self):
+        XMLNS = '{http://www.w3.org/XML/1998/namespace}'
+        lang = XMLNS + 'lang'
+        return self.get_string(lang)

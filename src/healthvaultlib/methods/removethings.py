@@ -1,8 +1,8 @@
 from lxml import etree
 
 from healthvaultlib.methods.method import Method
-from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
 from healthvaultlib.objects.thingkey import ThingKey
+from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
 
 class RemoveThingsRequest(RequestBase):
     
