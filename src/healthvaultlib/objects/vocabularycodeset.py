@@ -19,6 +19,7 @@ class VocabularyCodeSet:
     def parse_xml(self, xml):
         xmlutils = XmlUtils(xml)
         self.name = xmlutils.get_string_by_xpath('name')
+        print self.name
         self.family = xmlutils.get_string_by_xpath('family')
         self.version = xmlutils.get_string_by_xpath('version')
         for item in xml.xpath('code-item'):

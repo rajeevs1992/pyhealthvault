@@ -12,7 +12,11 @@ class XmlUtils:
             return None
         result = self.element.xpath(xpath)
         if len(result) > 0:
-            return result[0]
+            out = result[0]
+            if isinstance(out, str):
+                return out
+            if hasattr(out, 'text'):
+                return out.text
         return None
 
     def get_int_by_xpath(self, xpath):
