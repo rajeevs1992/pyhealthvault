@@ -3,8 +3,23 @@ from healthvaultlib.utils.xmlutils import XmlUtils
 
 
 class VocabularyKey:
+    '''
+        VocabularyKey is a key to a set of vocabularies.
+
+        Atrributes:
+            name            Vocabulary name. This attribute is mandatory when
+                            is used in GetVocabulary method.
+            family          Vocabulary family
+            version         Vocabulary version
+            code_value      Vocabulary coded value
+            description     Vocabulary decription
+            language        Vocabulary language
+    '''
 
     def __init__(self, key_xml=None):
+        '''
+            :param key_xml: lxml.etree.Element representing a single VocabularyKey
+        '''
         self.name = None
         self.family = None
         self.version = None
@@ -17,9 +32,15 @@ class VocabularyKey:
             self.parse_xml(key_xml)
 
     def write_xml(self):
+        '''
+            Writes a VocabularyKey Xml as per Healthvault schema.
+
+            :returns: lxml.etree.Element representing a single VocabularyKey
+        '''
         key = None
         if self. language is not None:
-            lang = {'{http://www.w3.org/XML/1998/namespace}lang': self.language}
+            lang = {}
+            lang['{http://www.w3.org/XML/1998/namespace}lang'] = self.language
             key = etree.Element('vocabulary-key', attrib=lang)
         else:
             key = etree.Element('vocabulary-key')
@@ -46,6 +67,12 @@ class VocabularyKey:
         return key
 
     def parse_xml(self, key_xml):
+        '''
+            Parse a VocabularyKey from an Xml as per Healthvault
+            schema.
+
+            :param key_xml: lxml.etree.Element representing a single VocabularyKey
+        '''
         xmlutils = XmlUtils(key_xml)
         self.name = xmlutils.get_string_by_xpath('name')
         self.family = xmlutils.get_string_by_xpath('family')

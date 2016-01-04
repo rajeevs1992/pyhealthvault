@@ -6,8 +6,14 @@ from healthvaultlib.objects.vocabularycodeset import VocabularyCodeSet
 from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
 
 
-
 class GetVocabularyRequest(RequestBase):
+    '''
+        GetVocabulary request can optionally include a
+        vocabulary parameters section.
+
+        Attributes:
+            vocabulary_parameters   A VocabularyParameter instance
+    '''
 
     def __init__(self):
         super(GetVocabularyRequest, self).__init__()
@@ -23,6 +29,15 @@ class GetVocabularyRequest(RequestBase):
 
 
 class GetVocabularyResponse(ResponseBase):
+    '''
+        The GetVocabulary response can either contain
+        a list of vocabulary keys or a list of vocabulary
+        code sets.
+
+        Atrributes:
+            vocabulary_key          Array of VocabularyKey
+            vocabulary_code_set     Array of VocabularyCodeSet
+    '''
 
     def __init__(self):
         super(GetVocabularyResponse, self).__init__()
@@ -40,7 +55,13 @@ class GetVocabularyResponse(ResponseBase):
 
 
 class GetVocabulary(Method):
+    '''
+        The GetVocabulary fetches vocabularies from healthvault.
 
+        If atleast one vocabulary key is provided in the request,
+        the GetVocabulary method returns the vocabitems for the
+        requested key, else a list of vocabulary keys is returned.
+    '''
     def __init__(self):
         self.request = GetVocabularyRequest()
         self.response = GetVocabularyResponse()
