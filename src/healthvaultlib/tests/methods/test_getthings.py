@@ -13,7 +13,7 @@ class TestGetThings(TestBase):
         height_format.sections.append('xml')
         height_filter.typeids.append('40750a6a-89b2-455c-bd8d-b420a4cb500b')
         group = ThingGroup([height_filter])
-        group._format = height_format
+        group.format = height_format
 
         method = GetThings([group])
         method.execute(self.connection)
@@ -31,7 +31,7 @@ class TestGetThings(TestBase):
         height_format.sections.append('core')
         height_filter.typeids.append('40750a6a-89b2-455c-bd8d-b420a4cb500b')
         group = ThingGroup([height_filter])
-        group._format = height_format
+        group.format = height_format
 
         method = GetThings([group])
         method.execute(self.connection)

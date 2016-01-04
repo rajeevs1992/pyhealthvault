@@ -61,23 +61,23 @@ def mvaultaction(request):
      return HttpResponse('')
 
 def mvaultentry(request):
-    _filter = ThingFilter()
-    _format = ThingFormat()
-    _format.sections.append('core')
-    _format.sections.append('xml')
-    _filter.typeids.append('40750a6a-89b2-455c-bd8d-b420a4cb500b')
-    group = ThingGroup([_filter])
-    group._format = _format
+    height_filter = ThingFilter()
+    height_format = ThingFormat()
+    height_format.sections.append('core')
+    height_format.sections.append('xml')
+    height_filter.typeids.append('40750a6a-89b2-455c-bd8d-b420a4cb500b')
+    height_group = ThingGroup([height_filter])
+    height_group.format = height_format
 
-    flt2 = ThingFilter()
-    fmt2 = ThingFormat()
-    fmt2.sections.append('core')
-    flt2.typeids.append('3b3e6b16-eb69-483c-8d7e-dfe116ae6092')
-    grp2 = ThingGroup([flt2])
-    grp2._format = fmt2
+    basic_filter = ThingFilter()
+    basic_format = ThingFormat()
+    basic_format.sections.append('core')
+    basic_filter.typeids.append('3b3e6b16-eb69-483c-8d7e-dfe116ae6092')
+    basic_group = ThingGroup([basic_filter])
+    basic_group.format = basic_format
 
 
-    method = GetThings([group, grp2])
+    method = GetThings([height_group, basic_group])
     method.execute(request.session['connection'])
     args = {}
     keys = []
