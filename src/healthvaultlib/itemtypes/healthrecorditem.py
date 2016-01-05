@@ -21,6 +21,7 @@ class HealthRecordItem(object):
         self.effective_date = None
 
         self.source = None
+        self.is_partial = False
 
     def parse_thing(self):
         xmlutils = XmlUtils(self.thing_xml)

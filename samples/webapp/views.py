@@ -66,14 +66,16 @@ def mvaultentry(request):
     height_format.sections.append('core')
     height_format.sections.append('xml')
     height_filter.typeids.append('40750a6a-89b2-455c-bd8d-b420a4cb500b')
-    height_group = ThingGroup([height_filter])
+    height_group = ThingGroup()
+    height_group.filters = [height_filter]
     height_group.format = height_format
 
     basic_filter = ThingFilter()
     basic_format = ThingFormat()
     basic_format.sections.append('core')
     basic_filter.typeids.append('3b3e6b16-eb69-483c-8d7e-dfe116ae6092')
-    basic_group = ThingGroup([basic_filter])
+    basic_group = ThingGroup()
+    basic_group.filters = [basic_filter]
     basic_group.format = basic_format
 
 

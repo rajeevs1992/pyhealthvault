@@ -16,13 +16,16 @@ class BasicDemographicInformation(HealthRecordItem):
 
     def parse_thing(self):
         super(BasicDemographicInformation, self).parse_thing()
-        xmlutils = XmlUtils(self.thing_xml)
-        self.gender = xmlutils.get_string_by_xpath('data-xml/basic/gender/text()')
-        self.birthyear = xmlutils.get_int_by_xpath('data-xml/basic/birthyear/text()')
-        country_node = self.thing_xml.xpath('data-xml/basic/country')
-        if country_node:
-            self.country = CodedValue(country_node[0])
-        self.postcode = xmlutils.get_string_by_xpath('data-xml/basic/postcode/text()')
+        if self.thing_xml.xpath('data-xml') != []:
+            xmlutils = XmlUtils(self.thing_xml)
+            self.gender = xmlutils.get_string_by_xpath('data-xml/basic/gender/text()')
+            self.birthyear = xmlutils.get_int_by_xpath('data-xml/basic/birthyear/text()')
+            country_node = self.thing_xml.xpath('data-xml/basic/country')
+            if country_node:
+                self.country = CodedValue(country_node[0])
+            self.postcode = xmlutils.get_string_by_xpath('data-xml/basic/postcode/text()')
+        else:
+            self.is_partial = True
 
     def write_xml(self):
         thing = super(BasicDemographicInformation, self).write_xml()

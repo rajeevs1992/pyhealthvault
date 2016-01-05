@@ -10,3 +10,7 @@ class ThingGroupResponse():
             typeid = healthrecorditem.xpath('type-id/text()')[0]
             item = resolver.get_class(typeid)(healthrecorditem)
             self.healthrecorditems.append(item)
+        for partialitem in group_xml.xpath('unprocessed-thing-key-info'):
+            typeid = healthrecorditem.xpath('type-id/text()')[0]
+            item = resolver.get_class(typeid)(partialitem)
+            self.healthrecorditems.append(item)
