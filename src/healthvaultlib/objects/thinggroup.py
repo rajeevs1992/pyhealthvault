@@ -7,25 +7,24 @@ class ThingGroup():
         ThingGroup acts as a filter for the GetThings request.
 
         Attributes:
-            filters              Specifies a filter for things to be retrieved 
+            filters              Specifies a filter for things to be retrieved
                                   based on the properties of the thing.
             format               Specifies a view for the results.
-            current_version_only Specifies whether or not we should return 
-                                  only the current version of things that 
+            current_version_only Specifies whether or not we should return
+                                  only the current version of things that
                                   satisfy the filter.
-            intents              Specifies the usage intentions for items 
+            intents              Specifies the usage intentions for items
                                   retrieved in the group.
-            order_by             Specifies the order in which to return the 
+            order_by             Specifies the order in which to return the
                                   things being retrieved.
             ids                  Specifies thing ids that need to be returned.
-
             keys                 Specifies keys of things to be fetched.
-            client_thing_ids     Specifies client assigned ids of things 
+            client_thing_ids     Specifies client assigned ids of things
                                   to be fetched.
             name                 Name of this request group.
-            max                  The maximum number of items to be returned 
+            max                  The maximum number of items to be returned
                                   for this group.
-            max_full             Maximum number of "full" items to be 
+            max_full             Maximum number of "full" items to be
                                   returned for this group.
     '''
 
@@ -61,12 +60,12 @@ class ThingGroup():
         elif self.client_thing_ids:
             for i in self.client_thing_ids:
                 client_thing_id = etree.Element('client-thing-id')
-                client_thing_id.text = i 
+                client_thing_id.text = i
                 group.append(client_thing_id)
 
         for i in self.filters:
             group.append(i.write_xml())
-        
+
         if self.format is not None:
             group.append(self.format.write_xml())
         else:
@@ -79,7 +78,7 @@ class ThingGroup():
 
         if self.intents is not None:
             group.append(self.intents.write_xml())
-        
+
         if self.order_by is not None:
             order_by = etree.Element('order-by')
             order_by.append(self.order_by.write_xml())

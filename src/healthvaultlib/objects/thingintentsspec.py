@@ -7,9 +7,10 @@ class ThingIntentsSpec:
         Specifies the usage intentions for items retrieved in the group.
 
         Attributes:
-            intents     The value may be one of "view", "download", or "transmit".
+            intents     The value may be one of "view", "download",
+                        or "transmit".
     '''
-    
+
     allowed_intents = ['view', 'download', 'transmit']
 
     def __init__(self, intents):
