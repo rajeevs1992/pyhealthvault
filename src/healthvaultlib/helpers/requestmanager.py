@@ -146,7 +146,7 @@ class RequestManager():
                 user_auth_token = etree.Element('user-auth-token')
                 user_auth_token.text = self.connection.user_auth_token
                 auth_session.append(user_auth_token)
-            else:
+            elif self.connection.personid is not None:
                 offline_person_info = etree.Element('offline-person-info')
                 offline_person_id = etree.Element('offline-person-id')
                 offline_person_id.text = self.connection.personid
