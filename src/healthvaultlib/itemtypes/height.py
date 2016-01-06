@@ -30,8 +30,8 @@ class Height(HealthRecordItem):
             if len(when_node) > 0:
                 self.when = xmlutils.get_datetime_from_when(when_node[0])
             self.value_m = xmlutils.get_float_by_xpath('data-xml/height/value/m/text()')
-            self.display_value =  xmlutils.get_float_by_xpath('data-xml/height/value/display/text()')
-            self.display_unit =  xmlutils.get_string_by_xpath('data-xml/height/value/display/@units')
+            self.display_value = xmlutils.get_float_by_xpath('data-xml/height/value/display/text()')
+            self.display_unit = xmlutils.get_string_by_xpath('data-xml/height/value/display/@units')
         else:
             self.is_partial = True
 

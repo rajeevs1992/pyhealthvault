@@ -28,8 +28,8 @@ class Weight(HealthRecordItem):
             if len(when_node) > 0:
                 self.when = xmlutils.get_datetime_from_when(when_node[0])
             self.value_kg = xmlutils.get_float_by_xpath('data-xml/weight/value/kg/text()')
-            self.display_value =  xmlutils.get_float_by_xpath('data-xml/weight/value/display/text()')
-            self.display_unit =  xmlutils.get_string_by_xpath('data-xml/weight/value/display/@units')
+            self.display_value = xmlutils.get_float_by_xpath('data-xml/weight/value/display/text()')
+            self.display_unit = xmlutils.get_string_by_xpath('data-xml/weight/value/display/@units')
         else:
             self.is_partial = True
 
@@ -42,7 +42,7 @@ class Weight(HealthRecordItem):
 
         value = etree.Element('value')
         kg = etree.Element('kg')
-        kg.text = str(self.value_m)
+        kg.text = str(self.value_kg)
         value.append(kg)
 
         if self.display_value is not None and self.display_units is not None:
