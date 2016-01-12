@@ -3,6 +3,7 @@ from healthvaultlib.methods.method import Method
 from healthvaultlib.objects.applicationinfo import ApplicationInfo
 from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
 
+
 class GetApplicationInfoRequest(RequestBase):
     
     def __init__(self, all_languages, child_appid):

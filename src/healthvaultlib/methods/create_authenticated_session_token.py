@@ -1,4 +1,7 @@
+import hmac
 import pytz
+import base64
+import hashlib
 import datetime
 
 from lxml import etree
@@ -46,14 +49,20 @@ class CreateAuthenticatedSessionTokenRequest(RequestBase):
         auth_info.append(app_id)
         info.append(auth_info)
 
-        crypto = HVCrypto(self.connection.publickey, self.connection.privatekey)
 
         credential = etree.Element('credential')
         appserver2 = etree.Element('appserver2')
-        sig = etree.Element('sig', digestMethod='SHA1', sigMethod='RSA-SHA1', thumbprint=self.connection.thumbprint)
-        sig.text = crypto.sign(etree.tostring(content))
-        appserver2.append(sig)
-
+        if self.connection.publickey and self.connection.privatekey:
+            crypto = HVCrypto(self.connection.publickey, self.connection.privatekey)
+            sig = etree.Element('sig', digestMethod='SHA1', sigMethod='RSA-SHA1', thumbprint=self.connection.thumbprint)
+            sig.text = crypto.sign(etree.tostring(content))
+            appserver2.append(sig)
+        elif self.connection.soda_shared_secret:
+            signature = hmac.new(base64.b64decode(self.connection.soda_shared_secret),
+                                    etree.tostring(content), hashlib.sha1)
+            hmacSig = etree.Element('hmacSig', algName='HMACSHA1')
+            hmacSig.text = base64.encodestring(signature.digest()).strip()
+            appserver2.append(hmacSig)
         appserver2.append(content)
         credential.append(appserver2)
         auth_info.append(credential)

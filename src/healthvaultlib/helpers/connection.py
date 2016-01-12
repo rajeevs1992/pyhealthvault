@@ -10,6 +10,7 @@ class Connection:
         self.privatekey = None
 
         self.shared_secret = None
+        self.soda_shared_secret = None
         self.auth_token = None
         self.user_auth_token = None
         self.targetpersonid = None
