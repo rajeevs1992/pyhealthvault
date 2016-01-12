@@ -4,11 +4,12 @@ from healthvaultlib.helpers.connection import Connection
 from healthvaultlib.exceptions.healthserviceexception import HealthServiceException
 from healthvaultlib.methods.newapplicationcreationinfo import NewApplicationCreationInfo
 
+
 class TestNewApplicationCreationInfo(unittest.TestCase):
 
     def setUp(self):
         self.connection = Connection(settings.SODA_MASTER_APPID, settings.HV_SERVICE_SERVER)
-    
+
     def test_newapplicationcreationinfo(self):
         method = NewApplicationCreationInfo()
         method.execute(self.connection)

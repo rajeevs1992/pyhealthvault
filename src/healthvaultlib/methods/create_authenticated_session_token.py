@@ -11,6 +11,7 @@ from healthvaultlib.methods.method import Method
 from healthvaultlib.utils.xmlutils import XmlUtils
 from healthvaultlib.methods.methodbase import RequestBase, ResponseBase
 
+
 class CreateAuthenticatedSessionTokenRequest(RequestBase):
 
     def __init__(self, connection):
@@ -49,7 +50,6 @@ class CreateAuthenticatedSessionTokenRequest(RequestBase):
         auth_info.append(app_id)
         info.append(auth_info)
 
-
         credential = etree.Element('credential')
         appserver2 = etree.Element('appserver2')
         if self.connection.publickey and self.connection.privatekey:
@@ -59,7 +59,7 @@ class CreateAuthenticatedSessionTokenRequest(RequestBase):
             appserver2.append(sig)
         elif self.connection.soda_shared_secret:
             signature = hmac.new(base64.b64decode(self.connection.soda_shared_secret),
-                                    etree.tostring(content), hashlib.sha1)
+                                 etree.tostring(content), hashlib.sha1)
             hmacSig = etree.Element('hmacSig', algName='HMACSHA1')
             hmacSig.text = base64.encodestring(signature.digest()).strip()
             appserver2.append(hmacSig)
@@ -70,8 +70,9 @@ class CreateAuthenticatedSessionTokenRequest(RequestBase):
 
         return info
 
+
 class CreateAuthenticatedSessionTokenResponse(ResponseBase):
-    
+
     def __init__(self):
         super(CreateAuthenticatedSessionTokenResponse, self).__init__()
         self.shared_secret = None
@@ -85,8 +86,9 @@ class CreateAuthenticatedSessionTokenResponse(ResponseBase):
         self.shared_secret = xmlutils.get_string_by_xpath('shared-secret/text()')
         self.auth_token = xmlutils.get_string_by_xpath('token/text()')
 
+
 class CreateAuthenticatedSessionToken(Method):
-    
+
     def __init__(self, connection):
         self.request = CreateAuthenticatedSessionTokenRequest(connection)
         self.response = CreateAuthenticatedSessionTokenResponse()

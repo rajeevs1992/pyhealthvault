@@ -6,12 +6,12 @@ from healthvaultlib.methods.getauthorizedpeople import GetAuthorizedPeople
 from healthvaultlib.methods.newapplicationcreationinfo import NewApplicationCreationInfo
 from healthvaultlib.objects.getauthorizedpeopleparameters import GetAuthorizedPeopleParameters
 
+
 def main():
     conn = Connection(settings.SODA_MASTER_APPID, settings.HV_SERVICE_SERVER)
 
     method = NewApplicationCreationInfo()
     method.execute(conn)
-
 
     app_token = method.response.app_token
 
