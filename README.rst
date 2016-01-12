@@ -5,8 +5,10 @@ The ``pyhealthvault`` is the most complete python SDK for Microsoft HealthVault.
 
 You can install pyhealthvault using the source
 
-   git clone git@github.com:rajeevs1992/pyhealthvault.git
-   python setup.py install
+
+    git clone git@github.com:rajeevs1992/pyhealthvault.git
+    
+    python setup.py install
 
 Or you can install the last ``pyhealthvault`` release using ``pip``
 
