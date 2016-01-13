@@ -70,6 +70,8 @@ class RequestManager():
                     self.method.response.parse_response(response)
                     break
             except HealthServiceException as e:
+                raise
+            except Exception as e:
                 if retry_count == MAX_RETRY:
                     raise e
                 else:

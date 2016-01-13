@@ -2,18 +2,27 @@ import unittest
 from healthvaultlib.tests.testbase import TestBase
 from healthvaultlib.itemtypes.height import Height
 from healthvaultlib.methods.putthings import PutThings
+from healthvaultlib.methods.authorizeapplication import AuthorizeApplication
 from healthvaultlib.exceptions.healthserviceexception import HealthServiceException
 from healthvaultlib.methods.removeapplicationrecordauthorization import RemoveApplicationRecordAuthorization
 
 
-class TestRemoveAppRecAuth(TestBase):
+class TestAuthDeauth(TestBase):
 
-    @unittest.skip('This test removes auth.Run it explicitly')
-    def test_putthings_create(self):
+    @unittest.skip('Run explicitly as deauths person')
+    def test_01_deauth(self):
+        # Deauth
         method = RemoveApplicationRecordAuthorization()
         method.execute(self.connection)
         with self.assertRaises(HealthServiceException):
             self.create_item()
+    
+    @unittest.skip('Yet to figure out how to call this method')
+    def test_02_auth(self):
+        # Auth
+        method = AuthorizeApplication(self.connection.applicationid)
+        method.execute(self.connection)
+        self.create_item()
 
     def create_item(self):
         h1 = self.get_height_object(1.20)
