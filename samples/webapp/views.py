@@ -69,6 +69,7 @@ def mvaultentry(request):
     height_group = ThingGroup()
     height_group.filters = [height_filter]
     height_group.format = height_format
+    height_group.max = 10
 
     basic_filter = ThingFilter()
     basic_format = ThingFormat()

@@ -30,4 +30,5 @@ The following methods are currently supported:
 * PutThings
 * QueryPermissions
 * RemoveThings
+* RemoveApplicationRecordAuthorization
 * SearchVocabulary

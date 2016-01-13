@@ -16,6 +16,12 @@ class NewApplicationCreationInfoRequest(RequestBase):
         return info
 
 class NewApplicationCreationInfoResponse(ResponseBase):
+    '''
+        Attributes:
+        app_id              Child application ID
+        shared_secret       The shared secret to be used to sign CAST
+        app_creation_token  Token to be given to shell for app creation
+    '''
 
     def __init__(self):
         super(NewApplicationCreationInfoResponse, self).__init__()
