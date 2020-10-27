@@ -14,7 +14,7 @@ setup(
     url='https://github.com/rajeevs1992/pyhealthvault',
     download_url='https://github.com/rajeevs1992/pyhealthvault/archive/master.zip',
     install_requires=[
-        'cryptography==1.1',
+        'cryptography==3.2',
         'enum34==1.0.4',
         'lxml==3.5.0',
         'pycrypto==2.6.1',
