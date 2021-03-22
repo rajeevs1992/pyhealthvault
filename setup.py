@@ -16,7 +16,7 @@ setup(
     install_requires=[
         'cryptography==1.1',
         'enum34==1.0.4',
-        'lxml==3.5.0',
+        'lxml==4.6.3',
         'pycrypto==2.6.1',
         'python-dateutil==2.4.2',
         'pytz==2015.6',
